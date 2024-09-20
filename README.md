@@ -29,7 +29,7 @@
 
 <!-- https://github.com/badges/shields -->
 <p align="center">
-<a href="https://github.com/SXP-Simon"><img src="https://img.shields.io/badge/GitHub-SXP-Simon-blue?logo=github" /></a>
+<a href="https://github.com/SXP-Simon"><img src="https://img.shields.io/badge/GitHub-SXP-blue?logo=github" /></a>
 <a href="https://space.bilibili.com/498105668"><img src="https://img.shields.io/badge/没有传说的傻小胖-blue?logo=bilibili" /></a>
 <!-- https://github.com/antonkomarev/github-profile-views-counter -->
 <img src="https://komarev.com/ghpvc/?username=SXP-Simon" />
