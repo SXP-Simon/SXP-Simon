@@ -9,9 +9,9 @@
 
 [![Top Langs](https://github-readme-stats.vercel.app/api/top-langs?username=anuraghazra)](https://github.com/anuraghazra/github-readme-stats)
 
-![SXP-Siomn's GitHub stats](https://github-readme-stats.vercel.app/api?username=anuraghazra&show_icons=true)
+![SXP-Siomn's GitHub stats](https://github-readme-stats.vercel.app/api?username=SXP-Simon&show_icons=true)
 
-![SXP-Simon's GitHub stats](https://github-readme-stats.vercel.app/api?username=anuraghazra&show_icons=true)
+![SXP-Simon's GitHub stats](https://github-readme-stats.vercel.app/api?username=SXP-Simon&show_icons=true)
 
 <a href="https://git.io/streak-stats"><img src="https://streak-stats.demolab.com?user=SXP-Simon&theme=dark&locale=ja&mode=weekly" alt="GitHub Streak" /></a>
 
