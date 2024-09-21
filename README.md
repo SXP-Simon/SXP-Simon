@@ -17,6 +17,7 @@
 <br/>
 <!--insert my esthetic anime cartoon-->
 <img src="image/素晴日.jpg" alt="素晴日" style="display:block;margin-left: auto;margin-right: auto;">
+<br/>
 <!-- https://github.com/Ashutosh00710/github-readme-activity-graph -->
 <img width="800" src="https://github-readme-activity-graph.vercel.app/graph?username=SXP-Simon&theme=github-compact&hide_border=true&area=true&custom_title=Contribution%20Graph" />
 <br/>
