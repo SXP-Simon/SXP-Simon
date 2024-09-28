@@ -27,7 +27,7 @@
 <img align="center" src="https://github-readme-stats.vercel.app/api/top-langs/?username=SXP-Simon&theme=transparent&hide_border=true&layout=donut-vertical&langs_count=6" />
 <br/>
 <!-- https://github.com/LelouchFR/skill-icons -->
-<img align="center" src="https://go-skill-icons.vercel.app/api/icons?i=py,pycharm,html,css,js,githubcopilot,linux">
+<img align="center" src="https://go-skill-icons.vercel.app/api/icons?i=py,pycharm,steam,html,css,js,githubcopilot,linux">
 </p>
 
 <!-- https://github.com/badges/shields -->
