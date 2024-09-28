@@ -3,6 +3,10 @@
 <p align="center">
 <img src="https://capsule-render.vercel.app/api?type=soft&color=timeGradient&height=300&&section=header&text=夜%20之%20向%20日%20葵&fontSize=90&fontAlign=50&fontAlignY=30&desc=人啊!幸福地活下去吧!&descAlign=50&descSize=30&descAlignY=60&animation=twinkling" />
 </p>
+<br/>
+<!--insert my esthetic anime cartoon-->
+<img src="image/水上由歧.png" alt="水上由歧" style="display:block;margin-left: auto;margin-right: auto;">
+<br/>
 
 <!-- https://github.com/DenverCoder1/readme-typing-svg -->
 <p align="center">
@@ -14,10 +18,7 @@
 <img align="center" width="400" src="https://github-readme-stats.vercel.app/api?username=SXP-Simon&theme=transparent&show_icons=true&hide_border=true&show=reviews&hide_title=true&hide=contribs" />
 <!-- https://github.com/DenverCoder1/github-readme-streak-stats -->
 <img align="center" width="400" src="https://streak-stats.demolab.com?user=SXP-Simon&theme=transparent&hide_border=true" />
-<br/>
-<!--insert my esthetic anime cartoon-->
-<img src="image/素晴日.jpg" alt="素晴日" style="display:block;margin-left: auto;margin-right: auto;">
-<br/>
+
 <!-- https://github.com/Ashutosh00710/github-readme-activity-graph -->
 <img width="800" src="https://github-readme-activity-graph.vercel.app/graph?username=SXP-Simon&theme=github-compact&hide_border=true&area=true&custom_title=Contribution%20Graph" />
 <br/>
@@ -29,6 +30,9 @@
 <!-- https://github.com/LelouchFR/skill-icons -->
 <img align="center" src="https://go-skill-icons.vercel.app/api/icons?i=py,pycharm,steam,html,css,js,githubcopilot,linux">
 </p>
+<br/>
+<img src="image/素晴日.jpg" alt="素晴日" style="display:block;margin-left: auto;margin-right: auto;">
+<br/>
 
 <!-- https://github.com/badges/shields -->
 <p align="center">
@@ -42,3 +46,6 @@
 <p align="center">
 <img src="https://capsule-render.vercel.app/api?type=soft&color=timeGradient&height=300&&section=footer&text=THE%20END&fontSize=90&fontAlign=50&fontAlignY=70&desc=Hope%20your%20program%20is%20bug-free!&descAlign=50&descSize=30&descAlignY=40&animation=twinkling" />
 </p>
+<br/>
+<img src="image/素晴日2.jpg" alt="素晴日2" style="display:block;margin-left: auto;margin-right: auto;">
+<br/>
