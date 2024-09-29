@@ -1,7 +1,7 @@
 
 
 <p align="center">
-<img src="https://capsule-render.vercel.app/api?type=soft&color=timeGradient&height=300&&section=header&text=夜%20之%20向%20日%20葵&fontSize=90&fontAlign=50&fontAlignY=30&desc=人啊!幸福地活下去吧!&descAlign=50&descSize=30&descAlignY=60&animation=twinkling" />
+<img src="https://capsule-render.vercel.app/api?type=waving&color=Gradient&customColorList=2,8&height=300&&section=header&text=夜%20之%20向%20日%20葵&fontSize=90&fontAlign=50&fontAlignY=30&desc=人啊!幸福地活下去吧!&descAlign=50&descSize=30&descAlignY=60&animation=twinkling" />
 </p>
 
 
@@ -43,7 +43,7 @@
 
 <!-- https://github.com/kyechan99/capsule-render -->
 <p align="center">
-<img src="https://capsule-render.vercel.app/api?type=soft&color=timeGradient&height=300&&section=footer&text=THE%20END&fontSize=90&fontAlign=50&fontAlignY=70&desc=Hope%20your%20program%20is%20bug-free!&descAlign=50&descSize=30&descAlignY=40&animation=twinkling" />
+<img src="https://capsule-render.vercel.app/api?type=waving&color=Gradient&customColorList=2,8&height=300&&section=footer&text=THE%20END&fontSize=90&fontAlign=50&fontAlignY=70&desc=Hope%20your%20program%20is%20bug-free!&descAlign=50&descSize=30&descAlignY=40&animation=twinkling" />
 </p>
 <br/>
 <img src="image/素晴日.jpg" alt="素晴日" style="display:block;margin-left: auto;margin-right: auto;">
