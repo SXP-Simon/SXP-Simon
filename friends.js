@@ -39,16 +39,24 @@ async function downloadAvatar(username) {
 async function getAvatarImageUrl(username) {
   const localImagePath = path.join(__dirname, 'Friend_avatar', `${username}.png`);
   try {
+    console.log(`[DEBUG] 检查头像: ${localImagePath}`);
     if (fs.existsSync(localImagePath)) {
       const stats = fs.statSync(localImagePath);
+      console.log(`[DEBUG] ${username} PNG 文件大小: ${stats.size}`);
       if (stats.size > 0) {
         const imageBuffer = fs.readFileSync(localImagePath);
         const base64Image = imageBuffer.toString('base64');
+        console.log(`[DEBUG] ${username} base64 长度: ${base64Image.length}`);
         return `data:image/png;base64,${base64Image}`;
+      } else {
+        console.log(`[WARN] ${username} PNG 文件大小为0`);
       }
+    } else {
+      console.log(`[WARN] PNG 文件不存在: ${localImagePath}`);
     }
     throw new Error('No valid avatar');
   } catch (error) {
+    console.error(`[ERROR] 处理头像出错 (${username}): ${error.message}`);
     // fallback: 返回 SVG 字符串
     return `data:image/svg+xml,${encodeURIComponent(`
       <svg width="80" height="80" viewBox="0 0 80 80" xmlns="http://www.w3.org/2000/svg">
