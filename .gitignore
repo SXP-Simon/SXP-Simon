@@ -1,5 +1,7 @@
 SXP-demo/
 
+workflowsdemo/
+
 # Dependencies
 node_modules/
 .pnpm-store/

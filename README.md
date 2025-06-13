@@ -58,7 +58,7 @@
 
 ## My Friends 
 <p align="center">
-  <img src="./friends_layout.svg" alt="My Friends" width="100%" />
+  <img src="./friends_layout.png" alt="My Friends" width="100%" />
   <br/>
   <sub><em>These wonderful people make my journey more colorful~</em></sub>
 </p>
