@@ -71,6 +71,7 @@ jobs:
           cp -r Friend_avatar temp_files/ || true
 
           # 清理工作区
+          git reset --hard
           git clean -fd
           rm -f friends_layout.svg || true
           rm -f friends_layout.png || true
