@@ -37,31 +37,8 @@ async function downloadAvatar(username) {
 
 // 创建一个通用函数，用于读取本地头像图片并转换为base64
 async function getAvatarImageUrl(username) {
-  const localImagePath = path.join(__dirname, 'Friend_avatar', `${username}.png`);
-  
-  try {
-    // 如果本地文件不存在，先尝试下载
-    if (!fs.existsSync(localImagePath)) {
-      await downloadAvatar(username);
-    }
-    
-    // 读取并转换为 base64
-    const imageBuffer = fs.readFileSync(localImagePath);
-    const base64Image = imageBuffer.toString('base64');
-    return `data:image/png;base64,${base64Image}`;
-  } catch (error) {
-    console.error(`处理头像出错: ${error.message}`);
-    // 如果出错，返回一个默认的头像
-    return `data:image/svg+xml,${encodeURIComponent(`
-      <svg width="80" height="80" viewBox="0 0 80 80" xmlns="http://www.w3.org/2000/svg">
-        <rect width="80" height="80" fill="#f0f0f0"/>
-        <text x="40" y="40" font-family="Arial" font-size="30" fill="#666"
-              text-anchor="middle" dominant-baseline="middle">
-          ${username.slice(0, 2).toUpperCase()}
-        </text>
-      </svg>
-    `)}`;
-  }
+  // 直接返回GitHub raw图片链接
+  return `https://github.com/SXP-Simon/SXP-Simon/blob/main/Friend_avatar/${username}.png?raw=true`;
 }
 
 // 生成单个好友卡片
