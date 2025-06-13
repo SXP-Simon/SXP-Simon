@@ -37,8 +37,8 @@ async function downloadAvatar(username) {
 
 // 创建一个通用函数，用于读取本地头像图片并转换为base64
 async function getAvatarImageUrl(username) {
-  // 直接返回GitHub raw图片链接
-  return `https://github.com/SXP-Simon/SXP-Simon/blob/main/Friend_avatar/${username}.png?raw=true`;
+  // 直接返回 GitHub raw.githubusercontent.com 图片直链
+  return `https://raw.githubusercontent.com/SXP-Simon/SXP-Simon/main/Friend_avatar/${username}.png`;
 }
 
 // 生成单个好友卡片
