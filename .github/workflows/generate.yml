@@ -1,0 +1,67 @@
+name: Generate README
+
+on:
+  # run automatically every 3 days
+  schedule:
+    - cron: "0 0 */3 * *"
+  
+  # allows to manually run the job at any time
+  workflow_dispatch:
+  
+  # run on push to workflows branch
+  push:
+    branches:
+      - workflows
+  
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+
+    steps:
+      - uses: actions/checkout@v3
+        with:
+          fetch-depth: 0
+          token: ${{ secrets.GITHUB_TOKEN }}
+
+      - uses: actions/setup-node@v4.3.0
+        with:
+          node-version: "20"
+
+      - name: Setup pnpm
+        uses: pnpm/action-setup@v2
+        with:
+          version: 8
+
+      - name: Install dependencies
+        run: pnpm install --no-frozen-lockfile
+
+      - name: Generate README
+        run: |
+          pnpm run download-avatars
+          pnpm run generate-friends
+
+      - name: Push to main branch
+        run: |
+          # 保存生成的README
+          cp README.md temp_readme.md
+
+          # 切换到main分支
+          git fetch origin main:main
+          git checkout main
+          
+          # 更新README
+          cp temp_readme.md README.md
+          
+          # 配置Git
+          git config --global user.name "github-actions[bot]"
+          git config --global user.email "github-actions[bot]@users.noreply.github.com"
+
+          # 提交更改
+          git add README.md
+          git diff --quiet && git diff --staged --quiet || git commit -m "docs(readme): update"
+          git push origin main
+          
+          # 切回workflows分支
+          git checkout workflows

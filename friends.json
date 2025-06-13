@@ -1,0 +1,30 @@
+[
+  {
+    "username": "SXP-Simon",
+    "name": "Simon",
+    "bio": "Tech enthusiast and developer",
+    "relationship": "Owner",
+    "githubUrl": "https://github.com/SXP-Simon"
+  },
+  {
+    "username": "friend1",
+    "name": "Friend One",
+    "bio": "Full-stack developer & open source contributor",
+    "relationship": "Friend",
+    "githubUrl": "https://github.com/friend1"
+  },
+  {
+    "username": "friend2",
+    "name": "Friend Two",
+    "bio": "AI researcher & Python developer",
+    "relationship": "Collaborator",
+    "githubUrl": "https://github.com/friend2"
+  },
+  {
+    "username": "friend3",
+    "name": "Friend Three",
+    "bio": "Web designer & UI/UX specialist",
+    "relationship": "Mentor",
+    "githubUrl": "https://github.com/friend3"
+  }
+] 

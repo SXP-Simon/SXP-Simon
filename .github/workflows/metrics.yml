@@ -1,0 +1,80 @@
+name: Metrics
+on:
+  # Schedule updates (each hour)
+  schedule: [{cron: "0 0 */3 * *"}]
+  # Lines below let you run workflow manually and on workflows branch
+  workflow_dispatch:
+  push: {branches: ["workflows"]}
+jobs:
+  github-metrics:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+    steps:
+      - uses: actions/checkout@v3
+        with:
+          fetch-depth: 0
+          token: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Setup pnpm
+        uses: pnpm/action-setup@v2
+        with:
+          version: 8
+
+      - name: Generate metrics
+        uses: lowlighter/metrics@latest
+        with:
+          token: ${{ secrets.METRICS_TOKEN }}
+          user: SXP-Simon
+          template: classic
+          base: header, activity, community, repositories, metadata
+          config_timezone: Asia/Shanghai
+          plugin_habits: yes
+          plugin_habits_charts_type: classic
+          plugin_habits_days: 14
+          plugin_habits_facts: yes
+          plugin_habits_from: 200
+          plugin_habits_languages_limit: 8
+          plugin_habits_languages_threshold: 0%
+          plugin_introduction: yes
+          plugin_introduction_title: yes
+          plugin_languages: yes
+          plugin_languages_analysis_timeout: 15
+          plugin_languages_analysis_timeout_repositories: 7.5
+          plugin_languages_categories: markup, programming
+          plugin_languages_colors: github
+          plugin_languages_limit: 8
+          plugin_languages_recent_categories: markup, programming
+          plugin_languages_recent_days: 14
+          plugin_languages_recent_load: 300
+          plugin_languages_sections: most-used
+          plugin_languages_threshold: 0%
+          plugin_lines: yes
+          plugin_lines_history_limit: 1
+          plugin_lines_repositories_limit: 4
+          plugin_lines_sections: base
+
+      - name: Push to main branch
+        run: |
+          # 保存生成的metrics
+          mkdir -p temp_metrics
+          cp github-metrics.svg temp_metrics/
+
+          # 切换到main分支
+          git fetch origin main:main
+          git checkout main
+          
+          # 更新metrics文件
+          cp temp_metrics/github-metrics.svg ./
+          
+          # 配置Git
+          git config --global user.name "github-actions[bot]"
+          git config --global user.email "github-actions[bot]@users.noreply.github.com"
+
+          # 提交更改
+          git add github-metrics.svg
+          git diff --quiet && git diff --staged --quiet || git commit -m "chore(metrics): update github metrics"
+          git push origin main
+          
+          # 切回workflows分支
+          git checkout workflows 
