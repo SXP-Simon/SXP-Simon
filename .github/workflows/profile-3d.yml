@@ -23,6 +23,7 @@ jobs:
         with:
           fetch-depth: 0
           token: ${{ secrets.GITHUB_TOKEN }}
+          clean: true  # 确保工作区干净
 
       - name: Generate 3D profile
         uses: yoshi389111/github-profile-3d-contrib@0.7.1
@@ -37,6 +38,9 @@ jobs:
           mkdir -p temp_profile
           cp -r profile-3d-contrib/* temp_profile/ || true
 
+          # 清理工作区
+          git clean -fd
+          
           # 切换到main分支
           git fetch origin main:main
           git checkout main
@@ -61,5 +65,6 @@ jobs:
             git push origin main
           fi
           
-          # 切回workflows分支
+          # 清理并切回workflows分支
+          git clean -fd
           git checkout workflows 

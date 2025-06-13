@@ -20,6 +20,7 @@ jobs:
         with:
           fetch-depth: 0
           token: ${{ secrets.GH_TOKEN }}
+          clean: true
 
       - name: Setup Node.js
         uses: actions/setup-node@v4.3.0
@@ -38,7 +39,7 @@ jobs:
 
       - name: Install dependencies
         run: |
-          pnpm install --no-frozen-lockfile
+          pnpm install
         env:
           PUPPETEER_SKIP_CHROMIUM_DOWNLOAD: true
 
@@ -56,27 +57,41 @@ jobs:
           PUPPETEER_EXECUTABLE_PATH: "/usr/bin/google-chrome-stable"
           GH_TOKEN: ${{ secrets.GH_TOKEN }}
 
+      - name: Verify generated files
+        run: |
+          if [ ! -f "friends_layout.svg" ]; then
+            echo "Error: friends_layout.svg was not generated"
+            exit 1
+          fi
+          echo "Generated files exist and are ready for commit"
+
       - name: Push to main branch
         run: |
           # 保存生成的文件
           mkdir -p temp_assets
-          cp -r Friend_avatar/*.png temp_assets/
-          cp friends_layout.svg temp_assets/
+          cp -r Friend_avatar/*.png temp_assets/ || true
+          cp friends_layout.svg temp_assets/ || true
 
+          # 清理工作区
+          git clean -fd
+          
           # 切换到main分支
           git fetch origin main:main
           git checkout main
           
+          # 创建必要的目录
+          mkdir -p Friend_avatar
+          
           # 复制生成的文件到main分支
-          cp -r temp_assets/* Friend_avatar/
-          cp temp_assets/friends_layout.svg ./
+          cp -r temp_assets/*.png Friend_avatar/ || true
+          cp temp_assets/friends_layout.svg ./ || true
           
           # 配置Git
           git config --global user.name "github-actions[bot]"
           git config --global user.email "github-actions[bot]@users.noreply.github.com"
           
           # 提交更改
-          git add -f Friend_avatar/*.png friends_layout.svg
+          git add -f Friend_avatar/*.png friends_layout.svg || true
           if git diff --staged --quiet; then
             echo "No changes to commit"
           else
@@ -84,5 +99,6 @@ jobs:
             git push origin main
           fi
           
-          # 切回workflows分支
+          # 清理并切回workflows分支
+          git clean -fd
           git checkout workflows
