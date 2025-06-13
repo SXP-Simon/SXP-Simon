@@ -42,11 +42,16 @@ jobs:
           node download_avatars.js
           node compress_avatars.js
           node friends.js
+          node generate_friends_png.js
 
       - name: Verify generated files
         run: |
           if [ ! -f "README.md" ]; then
             echo "Error: README.md was not generated"
+            exit 1
+          fi
+          if [ ! -f "friends_layout.png" ]; then
+            echo "Error: friends_layout.png was not generated"
             exit 1
           fi
           echo "Generated files exist and are ready for commit"
@@ -57,11 +62,13 @@ jobs:
           mkdir -p temp_files
           cp README.md temp_files/ || true
           cp friends_layout.svg temp_files/ || true
+          cp friends_layout.png temp_files/ || true
           cp -r Friend_avatar temp_files/ || true
 
           # 清理工作区
           git clean -fd
           rm -f friends_layout.svg || true
+          rm -f friends_layout.png || true
           
           # 切换到main分支
           git fetch origin main:main
@@ -70,6 +77,7 @@ jobs:
           # 更新文件
           cp temp_files/README.md . || true
           cp temp_files/friends_layout.svg . || true
+          cp temp_files/friends_layout.png . || true
           if [ -d "temp_files/Friend_avatar" ]; then
             mkdir -p Friend_avatar
             cp -r temp_files/Friend_avatar/* Friend_avatar/ || true
@@ -80,7 +88,7 @@ jobs:
           git config --global user.email "github-actions[bot]@users.noreply.github.com"
 
           # 提交更改
-          git add README.md friends_layout.svg Friend_avatar/ -f || true
+          git add README.md friends_layout.svg friends_layout.png Friend_avatar/ -f || true
           if git diff --staged --quiet; then
             echo "No changes to commit"
           else
