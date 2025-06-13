@@ -1,71 +1,144 @@
-# 个人主页资源生成器
+# Hi there 👋 I'm Simon
 
-这个项目用于自动生成和更新个人主页所需的各种资源，包括好友头像、统计信息等。
+<div align="center">
+  <img src="https://readme-typing-svg.herokuapp.com/?lines=Welcome+to+my+GitHub+profile!;I'm+a+passionate+developer;Always+learning+new+things&font=Fira%20Code&center=true&width=440&height=45&color=f75c7e&vCenter=true&size=22">
+</div>
 
-## 项目结构
+## 🚀 About Me
 
-项目使用双分支结构进行管理：
+- 🔭 I'm currently working on exciting projects
+- 🌱 I'm constantly learning and growing
+- 👯 I'm looking to collaborate on interesting open source projects
+- 💬 Ask me about anything tech-related
+- ⚡ Fun fact: I love coding and problem solving
 
-- `main` 分支：存储最终生成的资源文件和展示内容
-- `workflows` 分支：包含资源生成脚本和GitHub Actions工作流配置
+## 🛠️ Technologies & Tools
 
-### 主要文件说明
+<p align="center">
+  <img src="https://img.shields.io/badge/JavaScript-F7DF1E?style=for-the-badge&logo=javascript&logoColor=black" />
+  <img src="https://img.shields.io/badge/TypeScript-007ACC?style=for-the-badge&logo=typescript&logoColor=white" />
+  <img src="https://img.shields.io/badge/Python-3776AB?style=for-the-badge&logo=python&logoColor=white" />
+  <img src="https://img.shields.io/badge/React-20232A?style=for-the-badge&logo=react&logoColor=61DAFB" />
+  <img src="https://img.shields.io/badge/Node.js-43853D?style=for-the-badge&logo=node.js&logoColor=white" />
+</p>
 
-#### Main 分支
-- `github-metrics.svg`: GitHub统计信息图表
-- `friends_layout.svg`: 好友布局展示图
-- `README.md`: 项目说明文档
+## 🤝 Friends
 
-#### Workflows 分支
-- `.github/workflows/`: GitHub Actions工作流配置
-- `download_avatars.js`: 头像下载脚本
-- `friends.js`: 好友数据处理脚本
-- `friends.json`: 好友配置文件
+<div align="center">
+  <img src="./friends_layout.svg" alt="My Friends" width="100%" />
+  <br/>
+  <sub><em>These wonderful people make my journey more colorful~</em></sub>
+</div>
 
-## 自动化流程
+## 📊 GitHub Stats
 
-1. 工作流触发条件：
-   - 推送到 `workflows` 分支时
-   - 每天定时执行（UTC 00:00）
+<div align="center">
+  <img src="./profile-3d-contrib/profile-south-season.svg" alt="3D GitHub Stats" width="100%"/>
+</div>
 
-2. 工作流程：
-   - 检出代码
-   - 安装依赖
-   - 运行资源生成脚本
-   - 将生成的资源提交到 `main` 分支
+<p align="center">
+  <picture>
+    <source media="(prefers-color-scheme: dark)" srcset="https://raw.githubusercontent.com/SXP-Simon/SXP-Simon/output/github-contribution-grid-snake-dark.svg">
+    <source media="(prefers-color-scheme: light)" srcset="https://raw.githubusercontent.com/SXP-Simon/SXP-Simon/output/github-contribution-grid-snake.svg">
+    <img alt="github contribution grid snake animation" src="https://raw.githubusercontent.com/SXP-Simon/SXP-Simon/output/github-contribution-grid-snake.svg">
+  </picture>
+</p>
 
-## 开发指南
+## 📫 How to reach me
 
-### 本地开发
+<p align="center">
+  <a href="https://github.com/SXP-Simon">
+    <img src="https://img.shields.io/badge/GitHub-100000?style=for-the-badge&logo=github&logoColor=white" />
+  </a>
+  <a href="https://linkedin.com/in/your-linkedin">
+    <img src="https://img.shields.io/badge/LinkedIn-0077B5?style=for-the-badge&logo=linkedin&logoColor=white" />
+  </a>
+</p>
 
-1. 克隆仓库：
-```bash
-git clone <repository-url>
-cd <repository-name>
-```
+---
 
-2. 安装依赖：
-```bash
-npm install
-```
+<!-- <div align="center">
+  <img src="https://komarev.com/ghpvc/?username=SXP-Simon&color=blueviolet" alt="Profile views" />
+</div> -->
 
-3. 切换到workflows分支进行开发：
-```bash
-git checkout workflows
-```
+<!--
+**SXP-Simon/SXP-Simon** is a ✨ _special_ ✨ repository because its `README.md` (this file) appears on your GitHub profile.
+-->
 
-### 修改配置
+<p align="center">
+<img src="https://capsule-render.vercel.app/api?type=waving&color=gradient&customColorList=8&height=300&&section=header&text=夜%20之%20向%20日%20葵&fontSize=90&fontAlign=50&fontAlignY=30&desc=人啊!幸福地活下去吧!&descAlign=50&descSize=30&descAlignY=60&animation=twinkling" />
+</p>
 
-1. 在 `workflows` 分支上修改 `friends.json` 配置文件
-2. 提交并推送更改
-3. GitHub Actions将自动运行并更新main分支的资源
+<!-- thanks for:https://github.com/NolanHo/NolanHo -->
+> <p align="left"><em>
+>     何か成す者とは歩み続ける愚者である、成せぬ者とは歩めを止めた賢者である
+>     <br>
+>     成一事者，矢志不渝之愚者；毁一事者，停滞不前之贤者
+>     <br>
+>     Feats would await those who daftly enough never cease to forward,
+>     <br>
+>     folds always come around when you are wise enough to never attempt.
+> </em></p>
+> <p align="right">
+>     &mdash;&mdash;&mdash;《ロクでなし魔術講師と禁忌教典》
+> </p>
 
-## 注意事项
 
-- 所有的资源生成脚本都应该放在 `workflows` 分支
-- 生成的资源文件会自动更新到 `main` 分支
-- 请不要直接在 `main` 分支上修改生成的资源文件
+<!-- https://github.com/DenverCoder1/readme-typing-svg -->
+<p align="center">
+<img src="https://readme-typing-svg.demolab.com?font=Orbitron&size=25&pause=1000&center=true&vCenter=true&random=false&width=600&lines=Welcome+to+Helian%27s+GitHub+profile+page!" />
+</p>
 
-## License
+<br/>
+<img src="image/希斯缇娜.jpg" alt="希斯缇娜" style="display:block;margin-left: auto;margin-right: auto;">
+<br/>
 
-MIT License - 详见 [LICENSE](LICENSE) 文件
+<p align="center">
+<!-- https://github.com/anuraghazra/github-readme-stats -->
+<img align="center" width="400" src="https://github-readme-stats.vercel.app/api?username=SXP-Simon&theme=transparent&show_icons=true&hide_border=true&show=reviews&hide_title=true&hide=contribs" />
+<!-- https://github.com/DenverCoder1/github-readme-streak-stats -->
+<img align="center" width="400" src="https://streak-stats.demolab.com?user=SXP-Simon&theme=transparent&hide_border=true" />
+
+<!-- https://github.com/Ashutosh00710/github-readme-activity-graph -->
+<img width="800" src="https://github-readme-activity-graph.vercel.app/graph?username=SXP-Simon&theme=github-compact&hide_border=true&area=true&custom_title=Contribution%20Graph" />
+<br/>
+
+<!-- New 3D Contribution Graph -->
+<img src="./profile-3d-contrib/profile-south-season.svg" alt="3D GitHub Stats" width="100%"/>
+
+<!-- Snake Animation -->
+<picture>
+  <source media="(prefers-color-scheme: dark)" srcset="https://raw.githubusercontent.com/SXP-Simon/SXP-Simon/output/github-contribution-grid-snake-dark.svg">
+  <source media="(prefers-color-scheme: light)" srcset="https://raw.githubusercontent.com/SXP-Simon/SXP-Simon/output/github-contribution-grid-snake.svg">
+  <img alt="github contribution grid snake animation" src="https://raw.githubusercontent.com/SXP-Simon/SXP-Simon/output/github-contribution-grid-snake.svg">
+</picture>
+
+<!-- https://github.com/anuraghazra/github-readme-stats -->
+<img align="center" src="https://github-readme-stats.vercel.app/api/wakatime?username=NightHelianthus&theme=transparent&hide_border=true&layout=compact&langs_count=22" />
+<!-- https://github.com/anuraghazra/github-readme-stats -->
+<img align="center" src="https://github-readme-stats.vercel.app/api/top-langs/?username=SXP-Simon&theme=transparent&hide_border=true&layout=donut-vertical&langs_count=6" />
+<br/>
+<img align="center" src="https://github-profile-trophy.vercel.app/?username=SXP-Simon&theme=flat&no-frame=true&no-bg=true" />
+<br/>
+<!-- https://github.com/LelouchFR/skill-icons -->
+<img align="center" src="https://go-skill-icons.vercel.app/api/icons?i=py,pycharm,html,css,js,githubcopilot,linux,git,docker,rust,ollama">
+<br/>
+</p>
+
+<!-- https://github.com/badges/shields -->
+<p align="center">
+<a href="https://github.com/SXP-Simon"><img src="https://img.shields.io/badge/GitHub-Helain Nuits-white?logo=github" /></a>
+<a href="https://img.shields.io/github/followers/SXP-Simon?label=Follow&style=social"><img src="https://img.shields.io/github/followers/SXP-Simon?label=Follow&style=social" /></a>
+<a href="https://img.shields.io/github/stars/SXP-Simon?affiliations=OWNER&style=social"><img src="https://img.shields.io/github/stars/SXP-Simon?affiliations=OWNER&style=social" /></a>
+<a href="https://space.bilibili.com/609923881"><img src="https://img.shields.io/badge/Bilibili-没有传说的傻小胖-blue?logo=bilibili" /></a>
+<!-- https://github.com/antonkomarev/github-profile-views-counter -->
+<img src="https://komarev.com/ghpvc/?username=SXP-Simon" />
+</p>
+
+<!-- https://github.com/kyechan99/capsule-render -->
+<p align="center">
+<img src="https://capsule-render.vercel.app/api?type=waving&color=gradient&customColorList=8&height=300&&section=footer&text=THE%20END&fontSize=90&fontAlign=50&fontAlignY=70&desc=Tech+Otaku+Change+the+World.&descAlign=50&descSize=30&descAlignY=40&animation=twinkling" />
+</p>
+<br/>
+<img src="image/素晴日.jpg" alt="素晴日" style="display:block;margin-left: auto;margin-right: auto;">
+<br/>
