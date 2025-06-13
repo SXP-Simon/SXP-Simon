@@ -18,6 +18,8 @@ jobs:
     runs-on: ubuntu-latest
     permissions:
       contents: write
+    env:
+      GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
     steps:
       - uses: actions/checkout@v3
@@ -35,6 +37,9 @@ jobs:
         with:
           version: 8
           run_install: true
+
+      - name: Install canvas
+        run: pnpm add canvas
 
       - name: Generate README
         run: |
