@@ -24,6 +24,7 @@ jobs:
         with:
           fetch-depth: 0
           token: ${{ secrets.GITHUB_TOKEN }}
+          clean: true
 
       - uses: actions/setup-node@v4.3.0
         with:
@@ -41,26 +42,51 @@ jobs:
           node download_avatars.js
           node friends.js
 
+      - name: Verify generated files
+        run: |
+          if [ ! -f "README.md" ]; then
+            echo "Error: README.md was not generated"
+            exit 1
+          fi
+          echo "Generated files exist and are ready for commit"
+
       - name: Push to main branch
         run: |
-          # 保存生成的README
-          cp README.md temp_readme.md
+          # 保存生成的文件
+          mkdir -p temp_files
+          cp README.md temp_files/ || true
+          cp friends_layout.svg temp_files/ || true
+          cp -r Friend_avatar temp_files/ || true
 
+          # 清理工作区
+          git clean -fd
+          rm -f friends_layout.svg || true
+          
           # 切换到main分支
           git fetch origin main:main
           git checkout main
           
-          # 更新README
-          cp temp_readme.md README.md
+          # 更新文件
+          cp temp_files/README.md . || true
+          cp temp_files/friends_layout.svg . || true
+          if [ -d "temp_files/Friend_avatar" ]; then
+            mkdir -p Friend_avatar
+            cp -r temp_files/Friend_avatar/* Friend_avatar/ || true
+          fi
           
           # 配置Git
           git config --global user.name "github-actions[bot]"
           git config --global user.email "github-actions[bot]@users.noreply.github.com"
 
           # 提交更改
-          git add README.md
-          git diff --quiet && git diff --staged --quiet || git commit -m "docs(readme): update"
-          git push origin main
+          git add README.md friends_layout.svg Friend_avatar/ -f || true
+          if git diff --staged --quiet; then
+            echo "No changes to commit"
+          else
+            git commit -m "docs(readme): update"
+            git push origin main
+          fi
           
-          # 切回workflows分支
+          # 清理并切回workflows分支
+          git clean -fd
           git checkout workflows
