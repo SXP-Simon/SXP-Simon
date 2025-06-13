@@ -41,7 +41,7 @@ build/
 *.generated.*
 
 # Generated files
-Friend_avatar/
+Friend_avatar/*
 !Friend_avatar/.gitkeep
 
 # Build
