@@ -33,14 +33,13 @@ jobs:
         uses: pnpm/action-setup@v2
         with:
           version: 8
-
-      - name: Install dependencies
-        run: pnpm install --no-frozen-lockfile
+          run_install: true
 
       - name: Generate README
         run: |
-          pnpm run download-avatars
-          pnpm run generate-friends
+          pnpm install
+          node download_avatars.js
+          node friends.js
 
       - name: Push to main branch
         run: |

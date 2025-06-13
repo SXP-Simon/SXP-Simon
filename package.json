@@ -4,10 +4,12 @@
   "description": "GitHub profile readme resource generator",
   "main": "friends.js",
   "scripts": {
-    "generate": "node download_avatars.js && node friends.js",
-    "update": "npm run generate"
+    "download-avatars": "node download_avatars.js",
+    "generate-friends": "node friends.js",
+    "update": "npm run download-avatars && npm run generate-friends"
   },
   "dependencies": {
+    "puppeteer": "^21.5.0",
     "axios": "^1.6.2",
     "sharp": "^0.32.6",
     "fs-extra": "^11.1.1",
@@ -18,7 +20,7 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/yourusername/readme-resource-generator.git"
+    "url": "git+https://github.com/SXP-Simon/SXP-Simon.git"
   },
   "keywords": [
     "github",

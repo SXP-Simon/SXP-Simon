@@ -43,3 +43,24 @@ build/
 # Generated files
 Friend_avatar/*
 !Friend_avatar/.gitkeep
+
+# Build
+dist/
+build/
+
+# Editor directories and files
+.idea/
+.vscode/
+*.suo
+*.ntvs*
+*.njsproj
+*.sln
+*.sw?
+
+# System Files
+.DS_Store
+Thumbs.db
+
+# Generated files
+!Friend_avatar/.gitkeep
+temp_*
