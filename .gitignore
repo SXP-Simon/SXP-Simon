@@ -4,15 +4,27 @@ SXP-demo/
 node_modules/
 .pnpm-store/
 .npm/
+package-lock.json
+yarn.lock
+pnpm-lock.yaml
+pnpm-workspace.yaml
 
 # Environment
 .env
 .env.local
 .env.*.local
 
-# Build
-dist/
-build/
+# System files
+.DS_Store
+Thumbs.db
+desktop.ini
+
+# IDE
+.vscode/
+.idea/
+*.sublime-*
+*.swp
+*.swo
 
 # Logs
 *.log
@@ -21,18 +33,12 @@ yarn-debug.log*
 yarn-error.log*
 .pnpm-debug.log*
 
-# Editor directories and files
-.idea/
-.vscode/
-*.suo
-*.ntvs*
-*.njsproj
-*.sln
-*.sw?
-
-# System Files
-.DS_Store
-Thumbs.db
+# Generated files
+dist/
+build/
+.cache/
+.temp/
+*.generated.*
 
 # Generated files
 Friend_avatar/*
