@@ -37,8 +37,29 @@ async function downloadAvatar(username) {
 
 // 创建一个通用函数，用于读取本地头像图片并转换为base64
 async function getAvatarImageUrl(username) {
-  // 直接返回 GitHub raw.githubusercontent.com 图片直链
-  return `https://raw.githubusercontent.com/SXP-Simon/SXP-Simon/main/Friend_avatar/${username}.png`;
+  const localImagePath = path.join(__dirname, 'Friend_avatar', `${username}.png`);
+  try {
+    if (fs.existsSync(localImagePath)) {
+      const stats = fs.statSync(localImagePath);
+      if (stats.size > 0) {
+        const imageBuffer = fs.readFileSync(localImagePath);
+        const base64Image = imageBuffer.toString('base64');
+        return `data:image/png;base64,${base64Image}`;
+      }
+    }
+    throw new Error('No valid avatar');
+  } catch (error) {
+    // fallback: 返回 SVG 字符串
+    return `data:image/svg+xml,${encodeURIComponent(`
+      <svg width="80" height="80" viewBox="0 0 80 80" xmlns="http://www.w3.org/2000/svg">
+        <rect width="80" height="80" fill="#f0f0f0"/>
+        <text x="40" y="40" font-family="Arial" font-size="30" fill="#666"
+              text-anchor="middle" dominant-baseline="middle">
+          ${username.slice(0, 2).toUpperCase()}
+        </text>
+      </svg>
+    `)}`;
+  }
 }
 
 // 生成单个好友卡片
