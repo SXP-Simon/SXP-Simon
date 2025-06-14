@@ -56,7 +56,13 @@ jobs:
           mv profile-3d-contrib/* assets/profile-3d/
           rm -rf profile-3d-contrib
 
+          # 再次确保根目录下 profile-3d-contrib 被彻底删除
+          if [ -d "profile-3d-contrib" ]; then
+            rm -rf profile-3d-contrib
+          fi
+
           # 提交更改
           git add assets/profile-3d/
+          git rm -r --ignore-unmatch profile-3d-contrib
           git diff --quiet && git diff --staged --quiet || git commit -m "chore: sync 3d profile from workflows branch"
           git push origin main 

@@ -60,7 +60,6 @@
 <p align="center">
   <!-- Card Style PNG Version -->
   <img src="./assets/friends/generated/friends-layout.png" alt="My Friends (Card Style)" width="100%" />
-  <br/>
   <sub><em>Card-style visualization of my GitHub friends~</em></sub>
 </p>
 <br/>
