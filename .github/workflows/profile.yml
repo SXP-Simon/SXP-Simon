@@ -121,9 +121,9 @@ jobs:
           cp -r assets/profile-3d/* temp_files/profile-3d/ || true
           cp README.md temp_files/ || true
           
-          # 切换到main分支
-          git fetch origin main:main
-          git checkout main
+          # 切换到主分支
+          git fetch origin ${{ github.event.repository.default_branch }}:${{ github.event.repository.default_branch }}
+          git checkout ${{ github.event.repository.default_branch }}
           
           # 确保目标目录存在
           mkdir -p assets/metrics
@@ -141,7 +141,7 @@ jobs:
           # 提交更改
           git add assets/metrics/ assets/profile-3d/ README.md
           git diff --staged --quiet || git commit -m "chore: update profile statistics"
-          git push origin main
+          git push origin ${{ github.event.repository.default_branch }}
           
           # 切回workflows分支
           git checkout workflows 

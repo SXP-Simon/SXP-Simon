@@ -27,7 +27,7 @@ async function updateReadme() {
 
   // 更新朋友网络
   content = content.replace(
-    /(<p align="center">\s*<!-- Card Style PNG Version -->[\s\S]*?<\/p>)/,
+    /<p align="center">[\s\S]*?<!-- Card Style PNG Version -->[\s\S]*?<\/p>/,
     `<p align="center">\n  <!-- Card Style PNG Version -->\n  <img src="./assets/friends/generated/friends-layout.png" alt="My Friends (Card Style)" width="100%" />\n  <br/>\n  <sub><em>Card-style visualization of my GitHub friends~</em></sub>\n</p>`
   );
 
