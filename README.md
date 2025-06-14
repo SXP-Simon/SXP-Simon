@@ -72,7 +72,7 @@
 <a href="https://img.shields.io/github/stars/SXP-Simon?affiliations=OWNER&style=social"><img src="https://img.shields.io/github/stars/SXP-Simon?affiliations=OWNER&style=social" /></a>
 <a href="https://space.bilibili.com/609923881"><img src="https://img.shields.io/badge/Bilibili-没有传说的傻小胖-blue?logo=bilibili" /></a>
 <!-- https://github.com/antonkomarev/github-profile-views-counter -->
-<img src="https://komarev.com/ghpvc/?username=SXP-Simon" />
+<!-- <img src="https://komarev.com/ghpvc/?username=SXP-Simon" /> -->
 </p>
 
 <!-- https://github.com/kyechan99/capsule-render -->
