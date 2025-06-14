@@ -70,6 +70,9 @@ jobs:
           cp -r assets/friends/avatars/* temp_files/friends/avatars/ || true
           cp -r assets/friends/generated/* temp_files/friends/generated/ || true
           
+          # 丢弃本地更改，保证能切换分支
+          git reset --hard
+          
           # 切换到main分支
           git fetch origin main:main
           git checkout main
