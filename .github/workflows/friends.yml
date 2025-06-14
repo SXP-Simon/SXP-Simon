@@ -72,29 +72,21 @@ jobs:
           cp -r assets/friends/avatars/* temp_files/friends/avatars/ || true
           cp -r assets/friends/generated/* temp_files/friends/generated/ || true
           
-          # 丢弃本地更改，保证能切换分支
           git reset --hard
+          git fetch origin ${{ github.event.repository.default_branch }}:${{ github.event.repository.default_branch }}
+          git checkout ${{ github.event.repository.default_branch }}
           
-          # 切换到main分支
-          git fetch origin main:main
-          git checkout main
-          
-          # 确保目标目录存在
           mkdir -p assets/friends/avatars
           mkdir -p assets/friends/generated
           
-          # 复制文件
           cp -r temp_files/friends/avatars/* assets/friends/avatars/ || true
           cp -r temp_files/friends/generated/* assets/friends/generated/ || true
           
-          # 配置Git
           git config --local user.email "github-actions[bot]@users.noreply.github.com"
           git config --local user.name "github-actions[bot]"
           
-          # 提交更改
-          git add assets/friends/avatars/ assets/friends/generated/
+          git add assets/friends/avatars/ assets/friends/generated/ README.md
           git diff --staged --quiet || git commit -m "chore: update friends network"
-          git push origin main
+          git push origin ${{ github.event.repository.default_branch }}
           
-          # 切回workflows分支
           git checkout workflows
