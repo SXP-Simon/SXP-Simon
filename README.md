@@ -27,7 +27,7 @@
 </p>
 
 <br/>
-<img src="image/希斯缇娜.jpg" alt="希斯缇娜" style="display:block;margin-left: auto;margin-right: auto;">
+<img src="./image/希斯缇娜.jpg" alt="希斯缇娜" style="display:block;margin-left: auto;margin-right: auto;">
 <br/>
 
 <p align="center">
@@ -41,7 +41,7 @@
 <br/> -->
 
 <!-- New 3D Contribution Graph -->
-<img src="./profile-3d-contrib/profile-night-rainbow.svg" alt="3D GitHub Stats" width="100%"/>
+<img src="./assets/profile-3d/profile-night-rainbow.svg" alt="3D GitHub Stats" width="100%"/>
 
 
 <!-- https://github.com/anuraghazra/github-readme-stats -->
@@ -58,9 +58,15 @@
 
 ## My Friends 
 <p align="center">
-  <img src="./friends_layout.png" alt="My Friends" width="100%" />
+  <!-- Terminal Style SVG Version -->
+  <img src="./assets/friends/generated/friends-network.svg" alt="My Friends (Terminal Style)" width="100%" />
   <br/>
-  <sub><em>These wonderful people make my journey more colorful~</em></sub>
+  <sub><em>Terminal-style visualization of my GitHub friends~</em></sub>
+  <br/><br/>
+  <!-- Card Style PNG Version -->
+  <img src="./assets/friends/generated/friends-layout.png" alt="My Friends (Card Style)" width="100%" />
+  <br/>
+  <sub><em>Card-style visualization of my GitHub friends~</em></sub>
 </p>
 <br/>
 
@@ -80,5 +86,5 @@
 <img src="https://capsule-render.vercel.app/api?type=waving&color=gradient&customColorList=8&height=300&&section=footer&text=THE%20END&fontSize=90&fontAlign=50&fontAlignY=70&desc=Tech+Otaku+Change+the+World.&descAlign=50&descSize=30&descAlignY=40&animation=twinkling" />
 </p>
 <br/>
-<img src="image/素晴日.jpg" alt="素晴日" style="display:block;margin-left: auto;margin-right: auto;">
+<img src="./image/素晴日.jpg" alt="素晴日" style="display:block;margin-left: auto;margin-right: auto;">
 <br/>
