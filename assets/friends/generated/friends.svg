@@ -1,0 +1,279 @@
+
+    <svg width="840" height="480" xmlns="http://www.w3.org/2000/svg">
+      <defs>
+        <!-- Background Gradient with Animation -->
+        <linearGradient id="backgroundGradient" x1="0" y1="0" x2="1" y2="1">
+          <stop offset="0%" stop-color="#93c5fd">
+            <animate
+              attributeName="stop-color"
+              values="#93c5fd;#93c5fd;#93c5fd"
+              dur="10s"
+              repeatCount="indefinite"
+            />
+          </stop>
+          <stop offset="100%" stop-color="#fcd34d">
+            <animate
+              attributeName="stop-color"
+              values="#fcd34d;#fcd34d;#fcd34d"
+              dur="10s"
+              repeatCount="indefinite"
+            />
+          </stop>
+        </linearGradient>
+
+        <!-- Card Gradient -->
+        <linearGradient id="cardGradient" x1="1" y1="1" x2="0" y2="0">
+          <stop offset="0%" stop-color="rgba(30, 58, 138, 0.95)">
+            <animate
+              attributeName="stop-color"
+              values="rgba(30, 58, 138, 0.95);rgba(30, 58, 138, 0.95);rgba(30, 58, 138, 0.95)"
+              dur="6s"
+              repeatCount="indefinite"
+            />
+          </stop>
+          <stop offset="100%" stop-color="rgba(202, 138, 4, 0.95)">
+            <animate
+              attributeName="stop-color"
+              values="rgba(202, 138, 4, 0.95);rgba(202, 138, 4, 0.95);rgba(202, 138, 4, 0.95)"
+              dur="6s"
+              repeatCount="indefinite"
+            />
+          </stop>
+        </linearGradient>
+
+        <!-- Glass Effect -->
+        <filter id="glass">
+          <feGaussianBlur stdDeviation="0.5"/>
+          <feColorMatrix type="matrix" values="
+            1 0 0 0 0
+            0 1 0 0 0
+            0 0 1 0 0
+            0 0 0 0.95 0
+          "/>
+        </filter>
+
+        <style>
+          .friend-card {
+            transition: all 0.3s ease;
+          }
+          .friend-card:hover {
+            transform: translateY(-5px);
+          }
+          .card-text {
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+          }
+          .name {
+            font-size: 24px;
+            font-weight: bold;
+            fill: white;
+          }
+          .username {
+            font-size: 14px;
+            fill: rgba(255, 255, 255, 0.8);
+          }
+          .bio {
+            font-size: 14px;
+            fill: rgba(255, 255, 255, 0.9);
+          }
+          .tag {
+            font-size: 13px;
+            fill: white;
+          }
+        </style>
+      </defs>
+
+      <!-- Background -->
+      <rect width="100%" height="100%" fill="url(#backgroundGradient)"/>
+
+      <!-- Friend Cards -->
+      
+      <g class="friend-card" transform="translate(60, 60)">
+        <animateTransform
+          attributeName="transform"
+          type="translate"
+          values="60,60; 60,57; 60,60"
+          dur="3s"
+          repeatCount="indefinite"
+        />
+        <!-- Card Background -->
+        <rect
+          width="340"
+          height="160"
+          rx="10"
+          ry="10"
+          fill="url(#cardGradient)"
+          filter="url(#glass)"
+        >
+          <animate
+            attributeName="opacity"
+            values="0.95;1;0.95"
+            dur="4s"
+            repeatCount="indefinite"
+          />
+        </rect>
+
+        <!-- Card Content -->
+        <text x="20" y="40" class="card-text name">teapot1de</text>
+        <text x="20" y="65" class="card-text username">@ywh555hhh</text>
+        <text x="20" y="90" class="card-text bio">HPC enthusiast</text>
+        
+        <!-- Relationship Tag -->
+        <rect
+          x="240"
+          y="20"
+          width="80"
+          height="24"
+          rx="12"
+          fill="rgba(255, 255, 255, 0.15)"
+        />
+        <text
+          x="280"
+          y="36"
+          class="card-text tag"
+          text-anchor="middle"
+        >Senior</text>
+      </g>
+    
+      <g class="friend-card" transform="translate(440, 60)">
+        <animateTransform
+          attributeName="transform"
+          type="translate"
+          values="440,60; 440,57; 440,60"
+          dur="3s"
+          repeatCount="indefinite"
+        />
+        <!-- Card Background -->
+        <rect
+          width="340"
+          height="160"
+          rx="10"
+          ry="10"
+          fill="url(#cardGradient)"
+          filter="url(#glass)"
+        >
+          <animate
+            attributeName="opacity"
+            values="0.95;1;0.95"
+            dur="4s"
+            repeatCount="indefinite"
+          />
+        </rect>
+
+        <!-- Card Content -->
+        <text x="20" y="40" class="card-text name">CAICAII</text>
+        <text x="20" y="65" class="card-text username">@CAICAIIs</text>
+        <text x="20" y="90" class="card-text bio">Open Source</text>
+        
+        <!-- Relationship Tag -->
+        <rect
+          x="240"
+          y="20"
+          width="80"
+          height="24"
+          rx="12"
+          fill="rgba(255, 255, 255, 0.15)"
+        />
+        <text
+          x="280"
+          y="36"
+          class="card-text tag"
+          text-anchor="middle"
+        >Fellow</text>
+      </g>
+    
+      <g class="friend-card" transform="translate(60, 260)">
+        <animateTransform
+          attributeName="transform"
+          type="translate"
+          values="60,260; 60,257; 60,260"
+          dur="3s"
+          repeatCount="indefinite"
+        />
+        <!-- Card Background -->
+        <rect
+          width="340"
+          height="160"
+          rx="10"
+          ry="10"
+          fill="url(#cardGradient)"
+          filter="url(#glass)"
+        >
+          <animate
+            attributeName="opacity"
+            values="0.95;1;0.95"
+            dur="4s"
+            repeatCount="indefinite"
+          />
+        </rect>
+
+        <!-- Card Content -->
+        <text x="20" y="40" class="card-text name">HakimYu</text>
+        <text x="20" y="65" class="card-text username">@HakimYu</text>
+        <text x="20" y="90" class="card-text bio">Keen Frontend</text>
+        
+        <!-- Relationship Tag -->
+        <rect
+          x="240"
+          y="20"
+          width="80"
+          height="24"
+          rx="12"
+          fill="rgba(255, 255, 255, 0.15)"
+        />
+        <text
+          x="280"
+          y="36"
+          class="card-text tag"
+          text-anchor="middle"
+        >Fellow</text>
+      </g>
+    
+      <g class="friend-card" transform="translate(440, 260)">
+        <animateTransform
+          attributeName="transform"
+          type="translate"
+          values="440,260; 440,257; 440,260"
+          dur="3s"
+          repeatCount="indefinite"
+        />
+        <!-- Card Background -->
+        <rect
+          width="340"
+          height="160"
+          rx="10"
+          ry="10"
+          fill="url(#cardGradient)"
+          filter="url(#glass)"
+        >
+          <animate
+            attributeName="opacity"
+            values="0.95;1;0.95"
+            dur="4s"
+            repeatCount="indefinite"
+          />
+        </rect>
+
+        <!-- Card Content -->
+        <text x="20" y="40" class="card-text name">Sun</text>
+        <text x="20" y="65" class="card-text username">@THINKER-ONLY</text>
+        <text x="20" y="90" class="card-text bio">Overall Developer</text>
+        
+        <!-- Relationship Tag -->
+        <rect
+          x="240"
+          y="20"
+          width="80"
+          height="24"
+          rx="12"
+          fill="rgba(255, 255, 255, 0.15)"
+        />
+        <text
+          x="280"
+          y="36"
+          class="card-text tag"
+          text-anchor="middle"
+        >Fellow</text>
+      </g>
+    
+    </svg>
+  
