@@ -22,7 +22,7 @@ jobs:
         with:
           fetch-depth: 0
           token: ${{ secrets.GITHUB_TOKEN }}
-          clean: true
+          ref: workflows
           
       # 创建必要的目录
       - name: Create required directories
@@ -40,19 +40,16 @@ jobs:
       - name: Setup Node.js
         uses: actions/setup-node@v4
         with:
-          node-version: "20.11.1"
+          node-version: "20"
           
       - name: Setup pnpm
         uses: pnpm/action-setup@v2
         with:
           version: 8
-          run_install: false
           
       # 安装依赖
       - name: Install dependencies
-        run: |
-          pnpm config set auto-install-peers true
-          pnpm install --no-frozen-lockfile
+        run: pnpm install --no-frozen-lockfile
           
       # 生成朋友网络
       - name: Generate friends network
@@ -63,30 +60,22 @@ jobs:
       - name: Update README
         run: node src/scripts/update-readme.js
       
-      # 提交更改到main分支
-      - name: Push to main branch
+      # 配置Git并提交更改
+      - name: Configure Git and Push Changes
         run: |
-          # 保存生成的文件
-          mkdir -p temp_files/friends/avatars
-          mkdir -p temp_files/friends/generated
-          cp -r assets/friends/avatars/* temp_files/friends/avatars/ || true
-          cp -r assets/friends/generated/* temp_files/friends/generated/ || true
+          git config --global user.name "github-actions[bot]"
+          git config --global user.email "github-actions[bot]@users.noreply.github.com"
           
-          git reset --hard
-          git fetch origin ${{ github.event.repository.default_branch }}:${{ github.event.repository.default_branch }}
-          git checkout ${{ github.event.repository.default_branch }}
+          # 保存当前更改
+          git stash -u
           
-          mkdir -p assets/friends/avatars
-          mkdir -p assets/friends/generated
+          # 更新远程代码
+          git pull origin workflows --rebase
           
-          cp -r temp_files/friends/avatars/* assets/friends/avatars/ || true
-          cp -r temp_files/friends/generated/* assets/friends/generated/ || true
+          # 恢复更改
+          git stash pop || true
           
-          git config --local user.email "github-actions[bot]@users.noreply.github.com"
-          git config --local user.name "github-actions[bot]"
-          
+          # 添加并提交更改
           git add assets/friends/avatars/ assets/friends/generated/ README.md
-          git diff --staged --quiet || git commit -m "chore: update friends network"
-          git push origin ${{ github.event.repository.default_branch }}
-          
-          git checkout workflows
+          git diff --quiet && git diff --staged --quiet || git commit -m "chore: update friends network"
+          git push origin workflows

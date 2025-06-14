@@ -22,7 +22,7 @@ jobs:
         with:
           fetch-depth: 0
           token: ${{ secrets.GITHUB_TOKEN }}
-          clean: true
+          ref: workflows
           
       # 创建必要的目录
       - name: Create required directories
@@ -54,7 +54,7 @@ jobs:
           plugin_languages_threshold: 0%
           plugin_lines: yes
           output_action: commit
-          committer_branch: ${{ github.event.repository.default_branch }}
+          committer_branch: workflows
           committer_message: "chore: update metrics"
           filename: assets/metrics/github-metrics.svg
           
@@ -66,27 +66,6 @@ jobs:
           USERNAME: ${{ github.repository_owner }}
           MAX_REPOS: 300
 
-      - name: Configure Git
-        run: |
-          git config --global user.name "github-actions[bot]"
-          git config --global user.email "github-actions[bot]@users.noreply.github.com"
-
-      - name: Commit & Push 3D profile
-        run: |
-          git add profile-3d-contrib/ -f
-          if git diff --staged --quiet; then
-            echo "No changes to commit"
-          else
-            git commit -m "chore(profile): update 3d contrib graph"
-            git fetch origin ${{ github.event.repository.default_branch }}
-            if ! git rebase origin/${{ github.event.repository.default_branch }}; then
-              echo "Rebase conflict detected, resolving using ours strategy..."
-              git rebase --abort
-              git pull origin ${{ github.event.repository.default_branch }} --rebase --strategy-option=ours
-            fi
-            git push origin HEAD:${{ github.event.repository.default_branch }}
-          fi
-
       # 安装系统依赖
       - name: Install system dependencies
         run: |
@@ -97,53 +76,36 @@ jobs:
       - name: Setup Node.js
         uses: actions/setup-node@v4
         with:
-          node-version: "20.11.1"
+          node-version: "20"
           
       - name: Setup pnpm
         uses: pnpm/action-setup@v2
         with:
           version: 8
-          run_install: false
           
       - name: Install dependencies
-        run: |
-          pnpm config set auto-install-peers true
-          pnpm install --no-frozen-lockfile
+        run: pnpm install --no-frozen-lockfile
         
       # 更新README
       - name: Update README
         run: node src/scripts/update-readme.js
         
-      # 提交更改到main分支
-      - name: Push to main branch
+      # 配置Git并提交更改
+      - name: Configure Git and Push Changes
         run: |
-          mkdir -p temp_files/metrics
-          mkdir -p temp_files/profile-3d
-          cp -r assets/metrics/* temp_files/metrics/ || true
-          cp -r assets/profile-3d/* temp_files/profile-3d/ || true
-          cp README.md temp_files/ || true
-
-          git fetch origin ${{ github.event.repository.default_branch }}:${{ github.event.repository.default_branch }}
-          git checkout ${{ github.event.repository.default_branch }}
-
-          mkdir -p assets/metrics
-          mkdir -p assets/profile-3d
-
-          cp -r temp_files/metrics/* assets/metrics/ || true
-          cp -r temp_files/profile-3d/* assets/profile-3d/ || true
-          cp temp_files/README.md ./ || true
-
-          git config --local user.email "github-actions[bot]@users.noreply.github.com"
-          git config --local user.name "github-actions[bot]"
-
+          git config --global user.name "github-actions[bot]"
+          git config --global user.email "github-actions[bot]@users.noreply.github.com"
+          
+          # 保存当前更改
+          git stash -u
+          
+          # 更新远程代码
+          git pull origin workflows --rebase
+          
+          # 恢复更改
+          git stash pop || true
+          
+          # 添加并提交更改
           git add assets/metrics/ assets/profile-3d/ README.md
-          git diff --staged --quiet || git commit -m "chore: update profile statistics"
-          git fetch origin ${{ github.event.repository.default_branch }}
-          if ! git rebase origin/${{ github.event.repository.default_branch }}; then
-            echo "Rebase conflict detected, resolving using ours strategy..."
-            git rebase --abort
-            git pull origin ${{ github.event.repository.default_branch }} --rebase --strategy-option=ours
-          fi
-          git push origin HEAD:${{ github.event.repository.default_branch }}
-
-          git checkout workflows 
+          git diff --quiet && git diff --staged --quiet || git commit -m "chore: update profile statistics"
+          git push origin workflows 

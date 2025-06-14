@@ -60,3 +60,6 @@ assets/friends/generated/*
 *.test.js
 *.spec.js
 coverage/
+
+# ref
+history/
