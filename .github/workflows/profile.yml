@@ -66,6 +66,16 @@ jobs:
           USERNAME: ${{ github.repository_owner }}
           MAX_REPOS: 300
 
+      # 移动3D贡献图到正确位置
+      - name: Move 3D profile to assets
+        run: |
+          # 确保目标目录存在
+          mkdir -p assets/profile-3d
+          # 移动生成的文件
+          mv profile-3d-contrib/* assets/profile-3d/
+          # 删除原目录
+          rm -rf profile-3d-contrib
+
       # 安装系统依赖
       - name: Install system dependencies
         run: |
