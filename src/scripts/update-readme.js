@@ -27,14 +27,8 @@ async function updateReadme() {
 
   // 更新朋友网络
   content = content.replace(
-    /(<!-- Friends Network -->[\s\S]*?<!-- End Friends Network -->)/,
-    `<!-- Friends Network -->
-<p align="center">
-  <img src="./assets/generated/friends-network.svg" alt="Friends Network" width="100%" />
-  <br/>
-  <sub><em>These wonderful people make my journey more colorful~</em></sub>
-</p>
-<!-- End Friends Network -->`
+    /(<p align="center">\s*<!-- Card Style PNG Version -->[\s\S]*?<\/p>)/,
+    `<p align="center">\n  <!-- Card Style PNG Version -->\n  <img src="./assets/friends/generated/friends-layout.png" alt="My Friends (Card Style)" width="100%" />\n  <br/>\n  <sub><em>Card-style visualization of my GitHub friends~</em></sub>\n</p>`
   );
 
   fs.writeFileSync(readmePath, content);

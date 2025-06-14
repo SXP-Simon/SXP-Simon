@@ -1,8 +1,7 @@
 const fs = require('fs');
 const path = require('path');
 const https = require('https');
-const { createCanvas, loadImage } = require('canvas');
-const sharp = require('sharp');
+const puppeteer = require('puppeteer');
 
 // 配置
 const CONFIG = {
@@ -51,14 +50,17 @@ async function downloadAvatar(username, retries = 3) {
   const githubToken = process.env.GITHUB_TOKEN;
 
   return new Promise((resolve, reject) => {
-    const download = () => {
+    const download = (currentRetries) => {
+      const headers = {
+        'User-Agent': 'Node.js',
+        'Accept': 'application/vnd.github.v3+json'
+      };
+      if (githubToken) {
+        headers['Authorization'] = `token ${githubToken}`;
+      }
       const request = https.get(url, {
         timeout: 10000,
-        headers: {
-          'User-Agent': 'Node.js',
-          'Accept': 'application/vnd.github.v3+json',
-          'Authorization': `token ${githubToken}`
-        }
+        headers
       }, (response) => {
         if (response.statusCode === 404) {
           console.log(`User ${username} not found, using default avatar`);
@@ -67,9 +69,9 @@ async function downloadAvatar(username, retries = 3) {
         }
         
         if (response.statusCode !== 200) {
-          if (retries > 0) {
-            console.log(`Retrying download for ${username}, ${retries} attempts left...`);
-            setTimeout(() => download(), 1000);
+          if (currentRetries > 0) {
+            console.log(`Retrying download for ${username}, ${currentRetries - 1} attempts left...`);
+            setTimeout(() => download(currentRetries - 1), 1000);
             return;
           }
           reject(new Error(`Failed to download avatar for ${username}`));
@@ -113,9 +115,9 @@ async function downloadAvatar(username, retries = 3) {
       });
 
       request.on('error', (err) => {
-        if (retries > 0) {
-          console.log(`Retrying download for ${username}, ${retries} attempts left...`);
-          setTimeout(() => download(), 1000);
+        if (currentRetries > 0) {
+          console.log(`Retrying download for ${username}, ${currentRetries - 1} attempts left...`);
+          setTimeout(() => download(currentRetries - 1), 1000);
         } else {
           reject(err);
         }
@@ -123,16 +125,16 @@ async function downloadAvatar(username, retries = 3) {
 
       request.on('timeout', () => {
         request.destroy();
-        if (retries > 0) {
+        if (currentRetries > 0) {
           console.log(`Request timed out for ${username}, retrying...`);
-          setTimeout(() => download(), 1000);
+          setTimeout(() => download(currentRetries - 1), 1000);
         } else {
           reject(new Error(`Timeout downloading avatar for ${username}`));
         }
       });
     };
 
-    download();
+    download(retries);
   });
 }
 
@@ -297,17 +299,208 @@ function generateFriendCards(friends) {
   }).join('');
 }
 
-// 将SVG转换为PNG
-async function convertSvgToPng(svgString, outputPath) {
+// 用 puppeteer 截图 SVG 生成 PNG
+async function svgToPngWithPuppeteer(svgPath, pngPath, width, height) {
+  const browser = await puppeteer.launch({ headless: 'new', args: ['--no-sandbox'] });
   try {
-    await sharp(Buffer.from(svgString))
-      .png()
-      .toFile(outputPath);
-    console.log('Successfully generated PNG');
-  } catch (error) {
-    console.error('Error converting SVG to PNG:', error);
-    throw error;
+    const page = await browser.newPage();
+    await page.setViewport({ width, height, deviceScaleFactor: 2 });
+    const svgContent = fs.readFileSync(svgPath, 'utf8');
+    await page.setContent(`<body style=\"margin:0;padding:0;background:#fff\">${svgContent}</body>`);
+    await page.waitForSelector('svg');
+    await page.screenshot({ path: pngPath, omitBackground: true });
+    console.log('Successfully generated PNG with puppeteer');
+  } finally {
+    await browser.close();
   }
+}
+
+// === PNG 生成逻辑集成开始 ===
+const PNG_CONFIG = {
+  cardWidth: 400,
+  cardHeight: 150,
+  spacing: 60,
+  padding: 80,
+  columns: 2,
+  avatarSize: 90,
+  colors: {
+    background: '#0d1117',
+    grid: {
+      primary: 'rgba(88, 166, 255, 0.05)',
+      secondary: 'rgba(241, 196, 15, 0.05)'
+    },
+    card: {
+      border: '#58a6ff',
+      background: 'rgba(22, 27, 34, 0.9)',
+      glow: 'rgba(88, 166, 255, 0.2)',
+      text: '#c9d1d9',
+      highlight: '#f1c40f'
+    }
+  }
+};
+const pngOutputDir = path.join(process.cwd(), 'assets', 'friends', 'generated');
+const pngAvatarsDir = path.join(process.cwd(), 'assets', 'friends', 'avatars');
+if (!fs.existsSync(pngOutputDir)) {
+  fs.mkdirSync(pngOutputDir, { recursive: true });
+}
+if (!fs.existsSync(pngAvatarsDir)) {
+  fs.mkdirSync(pngAvatarsDir, { recursive: true });
+}
+
+// 下载头像（带缓存7天）
+async function downloadPngAvatar(username) {
+  const avatarPath = path.join(pngAvatarsDir, `${username}.png`);
+  if (fs.existsSync(avatarPath)) {
+    const stats = fs.statSync(avatarPath);
+    const age = Date.now() - stats.mtime.getTime();
+    if (age < 7 * 24 * 60 * 60 * 1000) {
+      return;
+    }
+  }
+  const url = `https://github.com/${username}.png`;
+  return new Promise((resolve, reject) => {
+    https.get(url, { headers: { 'User-Agent': 'Node.js' } }, (res) => {
+      if (res.statusCode !== 200) {
+        resolve(); // 静默失败
+        return;
+      }
+      const fileStream = fs.createWriteStream(avatarPath);
+      res.pipe(fileStream);
+      fileStream.on('finish', () => {
+        fileStream.close();
+        resolve();
+      });
+      fileStream.on('error', (err) => {
+        fs.unlink(avatarPath, () => {});
+        resolve();
+      });
+    }).on('error', resolve);
+  });
+}
+
+// 获取头像base64
+function getPngAvatarBase64(username) {
+  const avatarPath = path.join(pngAvatarsDir, `${username}.png`);
+  if (fs.existsSync(avatarPath)) {
+    const buffer = fs.readFileSync(avatarPath);
+    if (buffer.length > 0) {
+      return `data:image/png;base64,${buffer.toString('base64')}`;
+    }
+  }
+  // fallback: 可用 default.png
+  const defaultPath = path.join(pngAvatarsDir, 'default.png');
+  if (fs.existsSync(defaultPath)) {
+    const buffer = fs.readFileSync(defaultPath);
+    return `data:image/png;base64,${buffer.toString('base64')}`;
+  }
+  return '';
+}
+
+// 计算画布尺寸
+function calculatePngDimensions(friendsCount) {
+  const rows = Math.ceil(friendsCount / PNG_CONFIG.columns);
+  const width = PNG_CONFIG.padding * 2 + PNG_CONFIG.columns * PNG_CONFIG.cardWidth + (PNG_CONFIG.columns - 1) * PNG_CONFIG.spacing;
+  const height = PNG_CONFIG.padding * 2 + rows * PNG_CONFIG.cardHeight + (rows - 1) * PNG_CONFIG.spacing;
+  return { width, height, rows };
+}
+
+// 生成HTML内容
+function generatePngHTML(friends) {
+  const { width, height } = calculatePngDimensions(friends.length);
+  const gridLines = [];
+  const gridSpacing = 100;
+  for (let x = 0; x < width; x += gridSpacing) {
+    gridLines.push(`<line x1="${x}" y1="0" x2="${x}" y2="${height}" stroke="${PNG_CONFIG.colors.grid.primary}" stroke-width="1"/>`);
+  }
+  for (let y = 0; y < height; y += gridSpacing) {
+    gridLines.push(`<line x1="0" y1="${y}" x2="${width}" y2="${y}" stroke="${PNG_CONFIG.colors.grid.primary}" stroke-width="1"/>`);
+  }
+  for (let i = 0; i < width + height; i += gridSpacing * 2) {
+    gridLines.push(`<line x1="${i}" y1="0" x2="0" y2="${i}" stroke="${PNG_CONFIG.colors.grid.secondary}" stroke-width="1"/>`);
+  }
+  const cards = friends.map((friend, index) => {
+    const col = index % PNG_CONFIG.columns;
+    const row = Math.floor(index / PNG_CONFIG.columns);
+    const x = PNG_CONFIG.padding + col * (PNG_CONFIG.cardWidth + PNG_CONFIG.spacing);
+    const y = PNG_CONFIG.padding + row * (PNG_CONFIG.cardHeight + PNG_CONFIG.spacing);
+    const avatarBase64 = getPngAvatarBase64(friend.username);
+    const avatarContent = avatarBase64
+      ? `<image href="${avatarBase64}" x="30" y="30" width="${PNG_CONFIG.avatarSize}" height="${PNG_CONFIG.avatarSize}" clip-path="url(#avatarClip${index})"/>`
+      : '';
+    return `
+      <defs>
+        <clipPath id="avatarClip${index}">
+          <circle cx="${30 + PNG_CONFIG.avatarSize/2}" cy="${30 + PNG_CONFIG.avatarSize/2}" r="${PNG_CONFIG.avatarSize/2}"/>
+        </clipPath>
+      </defs>
+      <g class="card" transform="translate(${x},${y})">
+        <rect class="card-bg" width="${PNG_CONFIG.cardWidth}" height="${PNG_CONFIG.cardHeight}" rx="10"/>
+        <circle class="avatar-glow" cx="${30 + PNG_CONFIG.avatarSize/2}" cy="${30 + PNG_CONFIG.avatarSize/2}" r="${PNG_CONFIG.avatarSize/2 + 5}"/>
+        ${avatarContent}
+        <text class="name" x="150" y="45">${friend.name}</text>
+        <text class="bio" x="150" y="85">${friend.bio}</text>
+        <text class="relationship" x="150" y="120">${friend.relationship}</text>
+        <line x1="150" y1="60" x2="200" y2="60" class="decoration"/>
+        <path class="corner" d="M0 15 L0 0 L15 0"/>
+        <path class="corner" d="M${PNG_CONFIG.cardWidth - 15} ${PNG_CONFIG.cardHeight} L${PNG_CONFIG.cardWidth} ${PNG_CONFIG.cardHeight} L${PNG_CONFIG.cardWidth} ${PNG_CONFIG.cardHeight - 15}"/>
+      </g>
+    `;
+  }).join('');
+  return `
+    <!DOCTYPE html>
+    <html>
+    <head>
+      <style>
+        body { margin: 0; padding: 0; background: ${PNG_CONFIG.colors.background}; }
+        .card { filter: drop-shadow(0 8px 16px rgba(0, 0, 0, 0.2)); transition: transform 0.3s ease; }
+        .card:hover { transform: translateY(-5px); }
+        .card-bg { fill: ${PNG_CONFIG.colors.card.background}; stroke: ${PNG_CONFIG.colors.card.border}; stroke-width: 2; filter: drop-shadow(0 0 20px ${PNG_CONFIG.colors.card.glow}); }
+        .avatar-glow { fill: none; stroke: ${PNG_CONFIG.colors.card.highlight}; stroke-width: 1; opacity: 0.5; }
+        .name { fill: ${PNG_CONFIG.colors.card.highlight}; font-family: "Segoe UI", Arial; font-size: 24px; font-weight: bold; }
+        .bio { fill: ${PNG_CONFIG.colors.card.text}; font-family: "Segoe UI", Arial; font-size: 16px; }
+        .relationship { fill: ${PNG_CONFIG.colors.card.border}; font-family: "Segoe UI", Arial; font-size: 14px; font-style: italic; }
+        .decoration { stroke: ${PNG_CONFIG.colors.card.highlight}; stroke-width: 2; }
+        .corner { stroke: ${PNG_CONFIG.colors.card.highlight}; stroke-width: 2; fill: none; }
+      </style>
+    </head>
+    <body>
+      <svg width="${width}" height="${height}" xmlns="http://www.w3.org/2000/svg">
+        <rect width="100%" height="100%" fill="${PNG_CONFIG.colors.background}"/>
+        ${gridLines.join('\n        ')}
+        ${cards}
+      </svg>
+    </body>
+    </html>
+  `;
+}
+
+// PNG 主函数
+async function generateFriendsPng() {
+  // 读取朋友数据
+  const friendsPath = path.join(process.cwd(), 'assets', 'friends', 'friends.json');
+  const friends = JSON.parse(fs.readFileSync(friendsPath, 'utf8'));
+  // 下载所有头像
+  await Promise.all(friends.map(friend => downloadPngAvatar(friend.username)));
+  const { width, height } = calculatePngDimensions(friends.length);
+  const browser = await puppeteer.launch({ headless: 'new', args: ['--no-sandbox'] });
+  try {
+    const page = await browser.newPage();
+    await page.setViewport({ width, height, deviceScaleFactor: 2 });
+    const html = generatePngHTML(friends);
+    await page.setContent(html);
+    await page.waitForSelector('svg');
+    await page.screenshot({ path: path.join(pngOutputDir, 'friends-layout.png'), omitBackground: true });
+    console.log('Friends layout PNG generated successfully!');
+    console.log(`Generated image size: ${width}x${height} pixels`);
+  } finally {
+    await browser.close();
+  }
+}
+// === PNG 生成逻辑集成结束 ===
+
+// 只保留 PNG 生成主流程
+if (require.main === module) {
+  generateFriendsPng().catch(console.error);
 }
 
 // 主函数
@@ -322,8 +515,14 @@ async function main() {
     // 读取好友列表
     const friends = JSON.parse(fs.readFileSync(CONFIG.paths.friendsJson, 'utf8'));
 
-    // 下载头像
-    await Promise.all(friends.map(friend => downloadAvatar(friend.username)));
+    // 下载头像，失败时仅警告不终止流程
+    await Promise.all(
+      friends.map(friend =>
+        downloadAvatar(friend.username).catch(err => {
+          console.warn(`Warning: Failed to download avatar for ${friend.username}: ${err.message}`);
+        })
+      )
+    );
 
     // 生成SVG
     const svg = generateSVG(friends);
@@ -333,9 +532,15 @@ async function main() {
     fs.writeFileSync(svgPath, svg);
     console.log('Successfully generated SVG');
 
-    // 转换为PNG
+    // 计算宽高
+    const { width: cardWidth, height: cardHeight, gap, margin, columns } = CONFIG.card;
+    const totalWidth = margin * 2 + cardWidth * columns + gap * (columns - 1);
+    const totalRows = Math.ceil(friends.length / columns);
+    const totalHeight = margin * 2 + cardHeight * totalRows + gap * (totalRows - 1);
+
+    // 用 puppeteer 生成 PNG
     const pngPath = path.join(CONFIG.paths.output, 'friends.png');
-    await convertSvgToPng(svg, pngPath);
+    await svgToPngWithPuppeteer(svgPath, pngPath, totalWidth, totalHeight);
 
   } catch (error) {
     console.error('Error:', error);

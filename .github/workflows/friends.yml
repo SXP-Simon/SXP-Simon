@@ -52,7 +52,6 @@ jobs:
       - name: Install dependencies
         run: |
           pnpm config set auto-install-peers true
-          pnpm add -D sharp canvas
           pnpm install --no-frozen-lockfile
           
       # 生成朋友网络
@@ -60,7 +59,10 @@ jobs:
         run: node src/friends/generate-friends.js
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-          
+      
+      - name: Update README
+        run: node src/scripts/update-readme.js
+      
       # 提交更改到main分支
       - name: Push to main branch
         run: |
