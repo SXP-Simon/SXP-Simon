@@ -1,0 +1,114 @@
+name: Profile Update
+
+on:
+  schedule:
+    - cron: "0 0 */3 * *"  # 每3天运行一次
+  workflow_dispatch:        # 允许手动触发
+  push:
+    branches: ["workflows"] # workflows分支推送时触发
+    paths:
+      - "README.md"
+      - "src/scripts/**"
+      - ".github/workflows/profile.yml"
+
+jobs:
+  update-profile:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+          token: ${{ secrets.GITHUB_TOKEN }}
+          clean: true
+          
+      # 生成GitHub统计信息
+      - name: Generate Metrics
+        uses: lowlighter/metrics@latest
+        with:
+          token: ${{ secrets.METRICS_TOKEN }}
+          user: ${{ github.repository_owner }}
+          template: classic
+          base: header, activity, community, repositories, metadata
+          config_timezone: Asia/Shanghai
+          plugin_habits: yes
+          plugin_habits_charts_type: classic
+          plugin_habits_days: 14
+          plugin_habits_facts: yes
+          plugin_habits_from: 200
+          plugin_habits_languages_limit: 8
+          plugin_introduction: yes
+          plugin_languages: yes
+          plugin_languages_analysis_timeout: 15
+          plugin_languages_categories: markup, programming
+          plugin_languages_colors: github
+          plugin_languages_limit: 8
+          plugin_languages_threshold: 0%
+          plugin_lines: yes
+          output_action: commit
+          committer_branch: main
+          committer_message: "chore: update metrics"
+          filename: assets/metrics/github-metrics.svg
+          
+      # 生成3D贡献图
+      - name: Generate 3D Contribution
+        uses: yoshi389111/github-profile-3d-contrib@0.7.1
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          USERNAME: ${{ github.repository_owner }}
+          MAX_REPOS: 300
+          OUTPUT_PATH: "assets/profile-3d"
+          
+      # 设置Node环境
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: "20"
+          
+      - name: Setup pnpm
+        uses: pnpm/action-setup@v2
+        with:
+          version: 8
+          
+      - name: Install dependencies
+        run: pnpm install
+        
+      # 更新README
+      - name: Update README
+        run: node src/scripts/update-readme.js
+        
+      # 提交更改到main分支
+      - name: Push to main branch
+        run: |
+          # 保存生成的文件
+          mkdir -p temp_files
+          cp -r assets/metrics temp_files/
+          cp -r assets/profile-3d temp_files/
+          cp README.md temp_files/
+          
+          # 切换到main分支
+          git fetch origin main:main
+          git checkout main
+          
+          # 确保目标目录存在
+          mkdir -p assets/metrics
+          mkdir -p assets/profile-3d
+          
+          # 复制文件
+          cp -r temp_files/metrics/* assets/metrics/
+          cp -r temp_files/profile-3d/* assets/profile-3d/
+          cp temp_files/README.md ./
+          
+          # 配置Git
+          git config --local user.email "github-actions[bot]@users.noreply.github.com"
+          git config --local user.name "github-actions[bot]"
+          
+          # 提交更改
+          git add assets/metrics/ assets/profile-3d/ README.md
+          git diff --staged --quiet || git commit -m "chore: update profile statistics"
+          git push origin main
+          
+          # 切回workflows分支
+          git checkout workflows 

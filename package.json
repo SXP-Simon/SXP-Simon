@@ -1,33 +1,22 @@
 {
-  "name": "readme-resource-generator",
+  "name": "sxp-simon-profile",
   "version": "1.0.0",
-  "description": "GitHub profile readme resource generator",
-  "main": "friends.js",
+  "description": "Personal GitHub profile with dynamic content",
+  "private": true,
   "scripts": {
-    "download-avatars": "node download_avatars.js",
-    "generate-friends": "node friends.js",
-    "update": "npm run download-avatars && npm run generate-friends"
+    "friends:generate": "node src/friends/generate-png.js"
   },
   "dependencies": {
+    "canvas": "^2.11.2",
+    "canvas-prebuilt": "2.0.0-alpha.14",
     "puppeteer": "^21.5.0",
-    "axios": "^1.6.2",
-    "sharp": "^0.32.6",
-    "fs-extra": "^11.1.1",
-    "node-fetch": "^2.6.7"
+    "sharp": "^0.32.6"
   },
   "devDependencies": {
-    "@types/node": "^20.8.2"
+    "eslint": "^8.35.0",
+    "prettier": "^2.8.0"
   },
-  "repository": {
-    "type": "git",
-    "url": "git+https://github.com/SXP-Simon/SXP-Simon.git"
-  },
-  "keywords": [
-    "github",
-    "profile",
-    "readme",
-    "generator"
-  ],
-  "author": "",
-  "license": "MIT"
-} 
+  "engines": {
+    "node": ">=20.0.0"
+  }
+}

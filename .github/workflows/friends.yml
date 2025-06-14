@@ -1,104 +1,78 @@
-name: Run Friends Script
+name: Friends Network Update
 
 on:
-  push:
-    branches:
-      - "workflows"
   schedule:
-    - cron: "0 0 */3 * *"
-  workflow_dispatch:
+    - cron: "30 0 */3 * *"  # 每3天运行一次，错开30分钟
+  workflow_dispatch:        # 允许手动触发
+  push:
+    branches: ["workflows"] # workflows分支推送时触发
+    paths:
+      - "assets/friends/friends.json"
+      - "src/friends/**"
+      - ".github/workflows/friends.yml"
 
 jobs:
-  run-friends-js:
+  update-friends:
     runs-on: ubuntu-latest
     permissions:
       contents: write
-      
     steps:
       - name: Checkout repository
         uses: actions/checkout@v4
         with:
           fetch-depth: 0
-          token: ${{ secrets.GH_TOKEN }}
+          token: ${{ secrets.GITHUB_TOKEN }}
           clean: true
-
+          
+      # 设置Node环境
       - name: Setup Node.js
-        uses: actions/setup-node@v4.3.0
+        uses: actions/setup-node@v4
         with:
           node-version: "20"
-
+          
       - name: Setup pnpm
         uses: pnpm/action-setup@v2
         with:
           version: 8
-
-      - name: Install Chrome
-        run: |
-          sudo apt-get update
-          sudo apt-get install -y google-chrome-stable
-
+          
+      # 安装依赖
       - name: Install dependencies
-        run: |
-          pnpm install
+        run: pnpm install
+          
+      # 生成朋友网络
+      - name: Generate friends network
+        run: node src/friends/generate-friends.js
         env:
-          PUPPETEER_SKIP_CHROMIUM_DOWNLOAD: true
-
-      - name: Create Friend_avatar directory
-        run: mkdir -p Friend_avatar
-
-      - name: Download avatars
-        run: node download_avatars.js
-        env:
-          GH_TOKEN: ${{ secrets.GH_TOKEN }}
-
-      - name: Run friends.js with no sandbox
-        run: node friends.js --no-sandbox
-        env:
-          PUPPETEER_EXECUTABLE_PATH: "/usr/bin/google-chrome-stable"
-          GH_TOKEN: ${{ secrets.GH_TOKEN }}
-
-      - name: Verify generated files
-        run: |
-          if [ ! -f "friends_layout.svg" ]; then
-            echo "Error: friends_layout.svg was not generated"
-            exit 1
-          fi
-          echo "Generated files exist and are ready for commit"
-
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          
+      # 提交更改到main分支
       - name: Push to main branch
         run: |
           # 保存生成的文件
-          mkdir -p temp_assets
-          cp -r Friend_avatar/*.png temp_assets/ || true
-          cp friends_layout.svg temp_assets/ || true
-
-          # 清理工作区
-          git clean -fd
+          mkdir -p temp_files/friends
+          cp -r assets/friends/avatars temp_files/friends/
+          cp -r assets/friends/generated temp_files/friends/
           
           # 切换到main分支
           git fetch origin main:main
           git checkout main
           
-          # 创建必要的目录
-          mkdir -p Friend_avatar
+          # 确保目标目录存在
+          mkdir -p assets/friends/avatars
+          mkdir -p assets/friends/generated
           
-          # 复制生成的文件到main分支
-          cp -r temp_assets/*.png Friend_avatar/ || true
-          cp temp_assets/friends_layout.svg ./ || true
+          # 复制文件
+          cp -r temp_files/friends/avatars/* assets/friends/avatars/
+          cp -r temp_files/friends/generated/* assets/friends/generated/
           
           # 配置Git
-          git config --global user.name "github-actions[bot]"
-          git config --global user.email "github-actions[bot]@users.noreply.github.com"
+          git config --local user.email "github-actions[bot]@users.noreply.github.com"
+          git config --local user.name "github-actions[bot]"
           
           # 提交更改
-          git add -f Friend_avatar/*.png friends_layout.svg || true
-          if git diff --staged --quiet; then
-            echo "No changes to commit"
-          else
-            git commit -m "chore(generated): Update friends layout and avatars"
-            git push origin main
-          fi
+          git add assets/friends/avatars/ assets/friends/generated/
+          git diff --staged --quiet || git commit -m "chore: update friends network"
+          git push origin main
           
-          # 清理并切回workflows分支
-          git clean -fd
+          # 切回workflows分支
           git checkout workflows

@@ -1,13 +1,7 @@
-SXP-demo/
-
-workflowsdemo/
-
 # Dependencies
 node_modules/
 .pnpm-store/
-.npm/
 package-lock.json
-yarn.lock
 pnpm-lock.yaml
 pnpm-workspace.yaml
 
@@ -25,44 +19,44 @@ desktop.ini
 .vscode/
 .idea/
 *.sublime-*
-*.swp
-*.swo
-
-# Logs
-*.log
-npm-debug.log*
-yarn-debug.log*
-yarn-error.log*
-.pnpm-debug.log*
-
-# Generated files
-dist/
-build/
-.cache/
-.temp/
-*.generated.*
-
-# Generated files
-Friend_avatar/*
-!Friend_avatar/.gitkeep
-
-# Build
-dist/
-build/
-
-# Editor directories and files
-.idea/
-.vscode/
 *.suo
 *.ntvs*
 *.njsproj
 *.sln
 *.sw?
 
-# System Files
-.DS_Store
-Thumbs.db
+# Logs
+*.log
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+pnpm-debug.log*
+.pnpm-debug.log*
 
-# Generated files
-!Friend_avatar/.gitkeep
-temp_*
+
+
+# Build and Cache
+dist/
+build/
+.cache/
+.temp/
+temp/
+temp_*/
+
+# Generated Assets
+## Profile
+assets/metrics/*
+!assets/metrics/.gitkeep
+assets/profile-3d/*
+!assets/profile-3d/.gitkeep
+
+## Friends Network
+assets/friends/avatars/*
+!assets/friends/avatars/.gitkeep
+assets/friends/generated/*
+!assets/friends/generated/.gitkeep
+
+# Test files
+*.test.js
+*.spec.js
+coverage/
