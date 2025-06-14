@@ -24,6 +24,12 @@ jobs:
           token: ${{ secrets.GITHUB_TOKEN }}
           clean: true
           
+      # 创建必要的目录
+      - name: Create required directories
+        run: |
+          mkdir -p assets/friends/avatars
+          mkdir -p assets/friends/generated
+          
       # 安装系统依赖
       - name: Install system dependencies
         run: |
@@ -58,9 +64,10 @@ jobs:
       - name: Push to main branch
         run: |
           # 保存生成的文件
-          mkdir -p temp_files/friends
-          cp -r assets/friends/avatars temp_files/friends/
-          cp -r assets/friends/generated temp_files/friends/
+          mkdir -p temp_files/friends/avatars
+          mkdir -p temp_files/friends/generated
+          cp -r assets/friends/avatars/* temp_files/friends/avatars/ || true
+          cp -r assets/friends/generated/* temp_files/friends/generated/ || true
           
           # 切换到main分支
           git fetch origin main:main
@@ -71,8 +78,8 @@ jobs:
           mkdir -p assets/friends/generated
           
           # 复制文件
-          cp -r temp_files/friends/avatars/* assets/friends/avatars/
-          cp -r temp_files/friends/generated/* assets/friends/generated/
+          cp -r temp_files/friends/avatars/* assets/friends/avatars/ || true
+          cp -r temp_files/friends/generated/* assets/friends/generated/ || true
           
           # 配置Git
           git config --local user.email "github-actions[bot]@users.noreply.github.com"

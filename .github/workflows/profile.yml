@@ -24,6 +24,12 @@ jobs:
           token: ${{ secrets.GITHUB_TOKEN }}
           clean: true
           
+      # 创建必要的目录
+      - name: Create required directories
+        run: |
+          mkdir -p assets/metrics
+          mkdir -p assets/profile-3d
+          
       # 生成GitHub统计信息
       - name: Generate Metrics
         uses: lowlighter/metrics@latest
@@ -92,10 +98,11 @@ jobs:
       - name: Push to main branch
         run: |
           # 保存生成的文件
-          mkdir -p temp_files
-          cp -r assets/metrics temp_files/
-          cp -r assets/profile-3d temp_files/
-          cp README.md temp_files/
+          mkdir -p temp_files/metrics
+          mkdir -p temp_files/profile-3d
+          cp -r assets/metrics/* temp_files/metrics/ || true
+          cp -r assets/profile-3d/* temp_files/profile-3d/ || true
+          cp README.md temp_files/ || true
           
           # 切换到main分支
           git fetch origin main:main
@@ -106,9 +113,9 @@ jobs:
           mkdir -p assets/profile-3d
           
           # 复制文件
-          cp -r temp_files/metrics/* assets/metrics/
-          cp -r temp_files/profile-3d/* assets/profile-3d/
-          cp temp_files/README.md ./
+          cp -r temp_files/metrics/* assets/metrics/ || true
+          cp -r temp_files/profile-3d/* assets/profile-3d/ || true
+          cp temp_files/README.md ./ || true
           
           # 配置Git
           git config --local user.email "github-actions[bot]@users.noreply.github.com"
