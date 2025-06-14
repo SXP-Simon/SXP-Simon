@@ -58,14 +58,8 @@
 
 ## My Friends 
 <p align="center">
-  <!-- Terminal Style SVG Version -->
-  <img src="./assets/friends/generated/friends-network.svg" alt="My Friends (Terminal Style)" width="100%" />
-  <br/>
-  <sub><em>Terminal-style visualization of my GitHub friends~</em></sub>
-  <br/><br/>
   <!-- Card Style PNG Version -->
   <img src="./assets/friends/generated/friends-layout.png" alt="My Friends (Card Style)" width="100%" />
-  <br/>
   <sub><em>Card-style visualization of my GitHub friends~</em></sub>
 </p>
 <br/>
