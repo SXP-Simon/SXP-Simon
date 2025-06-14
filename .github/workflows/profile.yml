@@ -73,16 +73,17 @@ jobs:
 
       - name: Commit & Push 3D profile
         run: |
-          # 添加生成的文件
           git add profile-3d-contrib/ -f
-
-          # 检查是否有更改需要提交
           if git diff --staged --quiet; then
             echo "No changes to commit"
           else
             git commit -m "chore(profile): update 3d contrib graph"
             git fetch origin ${{ github.event.repository.default_branch }}
-            git rebase origin/${{ github.event.repository.default_branch }}
+            if ! git rebase origin/${{ github.event.repository.default_branch }}; then
+              echo "Rebase conflict detected, resolving using ours strategy..."
+              git rebase --abort
+              git pull origin ${{ github.event.repository.default_branch }} --rebase --strategy-option=ours
+            fi
             git push origin HEAD:${{ github.event.repository.default_branch }}
           fi
 
@@ -116,36 +117,33 @@ jobs:
       # 提交更改到main分支
       - name: Push to main branch
         run: |
-          # 保存生成的文件
           mkdir -p temp_files/metrics
           mkdir -p temp_files/profile-3d
           cp -r assets/metrics/* temp_files/metrics/ || true
           cp -r assets/profile-3d/* temp_files/profile-3d/ || true
           cp README.md temp_files/ || true
-          
-          # 切换到主分支
+
           git fetch origin ${{ github.event.repository.default_branch }}:${{ github.event.repository.default_branch }}
           git checkout ${{ github.event.repository.default_branch }}
-          
-          # 确保目标目录存在
+
           mkdir -p assets/metrics
           mkdir -p assets/profile-3d
-          
-          # 复制文件
+
           cp -r temp_files/metrics/* assets/metrics/ || true
           cp -r temp_files/profile-3d/* assets/profile-3d/ || true
           cp temp_files/README.md ./ || true
-          
-          # 配置Git
+
           git config --local user.email "github-actions[bot]@users.noreply.github.com"
           git config --local user.name "github-actions[bot]"
-          
-          # 提交更改
+
           git add assets/metrics/ assets/profile-3d/ README.md
           git diff --staged --quiet || git commit -m "chore: update profile statistics"
           git fetch origin ${{ github.event.repository.default_branch }}
-          git rebase origin/${{ github.event.repository.default_branch }}
+          if ! git rebase origin/${{ github.event.repository.default_branch }}; then
+            echo "Rebase conflict detected, resolving using ours strategy..."
+            git rebase --abort
+            git pull origin ${{ github.event.repository.default_branch }} --rebase --strategy-option=ours
+          fi
           git push origin HEAD:${{ github.event.repository.default_branch }}
-          
-          # 切回workflows分支
+
           git checkout workflows 
