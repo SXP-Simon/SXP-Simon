@@ -63,6 +63,9 @@ jobs:
           git config --global user.name "github-actions[bot]"
           git config --global user.email "github-actions[bot]@users.noreply.github.com"
           
+          # 拉取最新的 workflows 分支，避免 push 被拒绝
+          git pull origin workflows --rebase
+          
           # 添加并提交更改
           git add assets/friends/
           git diff --quiet && git diff --staged --quiet || git commit -m "chore: update friends network"

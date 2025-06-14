@@ -45,12 +45,18 @@ jobs:
           # 切换到 main 分支并更新
           git fetch origin main
           git checkout main
-          
+
           # 复制文件
           mkdir -p profile-3d-contrib
           git checkout workflows -- profile-3d-contrib/
-          
+
+          # 移动到 assets 目录
+          mkdir -p assets/profile-3d
+          rm -rf assets/profile-3d/*
+          mv profile-3d-contrib/* assets/profile-3d/
+          rm -rf profile-3d-contrib
+
           # 提交更改
-          git add profile-3d-contrib/
+          git add assets/profile-3d/
           git diff --quiet && git diff --staged --quiet || git commit -m "chore: sync 3d profile from workflows branch"
           git push origin main 
