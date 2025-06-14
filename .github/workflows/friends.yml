@@ -52,6 +52,7 @@ jobs:
       - name: Install dependencies
         run: |
           pnpm config set auto-install-peers true
+          pnpm add -D sharp canvas
           pnpm install --no-frozen-lockfile
           
       # 生成朋友网络

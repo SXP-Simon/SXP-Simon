@@ -1,6 +1,8 @@
 const fs = require('fs');
 const path = require('path');
 const https = require('https');
+const { createCanvas, loadImage } = require('canvas');
+const sharp = require('sharp');
 
 // 配置
 const CONFIG = {
@@ -295,6 +297,19 @@ function generateFriendCards(friends) {
   }).join('');
 }
 
+// 将SVG转换为PNG
+async function convertSvgToPng(svgString, outputPath) {
+  try {
+    await sharp(Buffer.from(svgString))
+      .png()
+      .toFile(outputPath);
+    console.log('Successfully generated PNG');
+  } catch (error) {
+    console.error('Error converting SVG to PNG:', error);
+    throw error;
+  }
+}
+
 // 主函数
 async function main() {
   console.log('开始执行主函数...');
@@ -304,33 +319,26 @@ async function main() {
     // 确保目录存在
     ensureDirectories();
 
-    // 读取好友数据
-    console.log('读取好友数据...');
-    const friends = require(CONFIG.paths.friendsJson);
+    // 读取好友列表
+    const friends = JSON.parse(fs.readFileSync(CONFIG.paths.friendsJson, 'utf8'));
 
     // 下载头像
-    console.log('开始下载头像...');
-    const uniqueUsers = [...new Set(friends.map(friend => friend.username))];
-    for (const username of uniqueUsers) {
-      try {
-        await downloadAvatar(username);
-      } catch (error) {
-        console.error(`Error downloading avatar for ${username}:`, error.message);
-      }
-    }
+    await Promise.all(friends.map(friend => downloadAvatar(friend.username)));
 
     // 生成SVG
-    console.log('开始生成SVG...');
-    const svgContent = generateSVG(friends);
+    const svg = generateSVG(friends);
     
-    // 写入SVG文件
-    const svgPath = path.join(CONFIG.paths.output, 'friends_layout.svg');
-    fs.writeFileSync(svgPath, svgContent);
-    console.log('SVG文件生成成功！');
-    console.log('文件路径:', svgPath);
+    // 保存SVG
+    const svgPath = path.join(CONFIG.paths.output, 'friends.svg');
+    fs.writeFileSync(svgPath, svg);
+    console.log('Successfully generated SVG');
+
+    // 转换为PNG
+    const pngPath = path.join(CONFIG.paths.output, 'friends.png');
+    await convertSvgToPng(svg, pngPath);
 
   } catch (error) {
-    console.error('执行过程中发生错误:', error);
+    console.error('Error:', error);
     process.exit(1);
   }
 }
