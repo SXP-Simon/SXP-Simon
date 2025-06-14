@@ -57,25 +57,29 @@ jobs:
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
       
-      - name: Update README
-        run: node src/scripts/update-readme.js
-      
-      # 配置Git并提交更改
-      - name: Configure Git and Push Changes
+      # 配置Git并提交更改到 workflows 分支
+      - name: Configure Git and Push Changes to workflows
         run: |
           git config --global user.name "github-actions[bot]"
           git config --global user.email "github-actions[bot]@users.noreply.github.com"
           
-          # 保存当前更改
-          git stash -u
-          
-          # 更新远程代码
-          git pull origin workflows --rebase
-          
-          # 恢复更改
-          git stash pop || true
-          
           # 添加并提交更改
-          git add assets/friends/avatars/ assets/friends/generated/ README.md
+          git add assets/friends/
           git diff --quiet && git diff --staged --quiet || git commit -m "chore: update friends network"
           git push origin workflows
+
+      # 同步更改到 main 分支
+      - name: Sync changes to main branch
+        run: |
+          # 切换到 main 分支并更新
+          git fetch origin main
+          git checkout main
+          
+          # 复制文件
+          mkdir -p assets/friends
+          git checkout workflows -- assets/friends/
+          
+          # 提交更改
+          git add assets/friends/
+          git diff --quiet && git diff --staged --quiet || git commit -m "chore: sync friends network from workflows branch"
+          git push origin main
