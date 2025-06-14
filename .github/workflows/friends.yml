@@ -24,20 +24,29 @@ jobs:
           token: ${{ secrets.GITHUB_TOKEN }}
           clean: true
           
+      # 安装系统依赖
+      - name: Install system dependencies
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y build-essential libcairo2-dev libpango1.0-dev libjpeg-dev libgif-dev librsvg2-dev
+          
       # 设置Node环境
       - name: Setup Node.js
         uses: actions/setup-node@v4
         with:
-          node-version: "20"
+          node-version: "20.11.1"
           
       - name: Setup pnpm
         uses: pnpm/action-setup@v2
         with:
           version: 8
+          run_install: false
           
       # 安装依赖
       - name: Install dependencies
-        run: pnpm install
+        run: |
+          pnpm config set auto-install-peers true
+          pnpm install --no-frozen-lockfile
           
       # 生成朋友网络
       - name: Generate friends network

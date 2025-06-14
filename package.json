@@ -4,17 +4,16 @@
   "description": "Personal GitHub profile with dynamic content",
   "private": true,
   "scripts": {
-    "friends:generate": "node src/friends/generate-png.js"
+    "friends:generate": "node src/friends/generate-friends.js"
   },
   "dependencies": {
     "canvas": "^2.11.2",
-    "canvas-prebuilt": "2.0.0-alpha.14",
-    "puppeteer": "^21.5.0",
-    "sharp": "^0.32.6"
+    "puppeteer": "^22.8.2",
+    "sharp": "^0.33.2"
   },
   "devDependencies": {
-    "eslint": "^8.35.0",
-    "prettier": "^2.8.0"
+    "eslint": "^8.57.0",
+    "prettier": "^3.2.5"
   },
   "engines": {
     "node": ">=20.0.0"
