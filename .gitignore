@@ -1,5 +1,6 @@
 # Dependencies
 node_modules/
+
 .pnpm-store/
 package-lock.json
 pnpm-lock.yaml
@@ -27,6 +28,29 @@ desktop.ini
 
 # Logs
 *.log
+=======
+.pnp
+.pnp.js
+
+# Testing
+coverage/
+
+# Production
+build/
+dist/
+out/
+
+# Misc
+.DS_Store
+.env
+.env.local
+.env.development.local
+.env.test.local
+.env.production.local
+*.pem
+
+# Debug
+
 npm-debug.log*
 yarn-debug.log*
 yarn-error.log*
@@ -63,3 +87,18 @@ coverage/
 
 # ref
 history/
+
+
+# IDE
+.idea/
+.vscode/
+*.swp
+*.swo
+
+# Temporary files
+*.tmp
+*.temp
+temp/
+tmp/
+
+
