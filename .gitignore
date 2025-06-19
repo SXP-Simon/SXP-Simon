@@ -1,5 +1,34 @@
 # Dependencies
 node_modules/
+
+.pnpm-store/
+package-lock.json
+pnpm-lock.yaml
+pnpm-workspace.yaml
+
+# Environment
+.env
+.env.local
+.env.*.local
+
+# System files
+.DS_Store
+Thumbs.db
+desktop.ini
+
+# IDE
+.vscode/
+.idea/
+*.sublime-*
+*.suo
+*.ntvs*
+*.njsproj
+*.sln
+*.sw?
+
+# Logs
+*.log
+=======
 .pnp
 .pnp.js
 
@@ -21,10 +50,44 @@ out/
 *.pem
 
 # Debug
+
 npm-debug.log*
 yarn-debug.log*
 yarn-error.log*
 pnpm-debug.log*
+.pnpm-debug.log*
+
+
+
+# Build and Cache
+dist/
+build/
+.cache/
+.temp/
+temp/
+temp_*/
+
+# Generated Assets
+## Profile
+assets/metrics/*
+!assets/metrics/.gitkeep
+assets/profile-3d/*
+!assets/profile-3d/.gitkeep
+
+## Friends Network
+assets/friends/avatars/*
+!assets/friends/avatars/.gitkeep
+assets/friends/generated/*
+!assets/friends/generated/.gitkeep
+
+# Test files
+*.test.js
+*.spec.js
+coverage/
+
+# ref
+history/
+
 
 # IDE
 .idea/
@@ -38,11 +101,4 @@ pnpm-debug.log*
 temp/
 tmp/
 
-# Generated files
-assets/friends/avatars/*
-!assets/friends/avatars/.gitkeep
 
-# Keep generated SVG files
-!assets/friends/generated/friends_layout.svg
-!assets/metrics/github-metrics.svg
-!assets/profile-3d/profile-season-animate.svg

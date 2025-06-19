@@ -1,0 +1,46 @@
+name: GitHub-Profile-3D-Contrib
+
+on:
+  schedule:
+    - cron: "0 0 */3 * *"  # 每3天运行一次
+  workflow_dispatch:        # 允许手动触发
+  push:
+    branches: ["main"] # main分支推送时触发
+
+jobs:
+  update-profile:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+          token: ${{ secrets.GITHUB_TOKEN }}
+          ref: main
+          
+      # 生成3D贡献图
+      - name: Generate 3D profile
+        uses: yoshi389111/github-profile-3d-contrib@0.7.1
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          USERNAME: ${{ github.repository_owner }}
+          MAX_REPOS: 300
+
+      # 移动生成结果到 assets/profile-3d
+      - name: Move generated 3D profile to assets/profile-3d
+        run: |
+          mkdir -p assets/profile-3d
+          mv profile-3d-contrib/* assets/profile-3d/
+          rm -rf profile-3d-contrib
+
+      # 配置Git并提交更改到 main 分支
+      - name: Configure Git and Push Changes to main
+        run: |
+          git config --global user.name "github-actions[bot]"
+          git config --global user.email "github-actions[bot]@users.noreply.github.com"
+          git add assets/profile-3d/
+          git rm -r --ignore-unmatch profile-3d-contrib
+          git diff --quiet && git diff --staged --quiet || git commit -m "chore: update 3d profile"
+          git push origin main 
