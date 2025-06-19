@@ -5,7 +5,7 @@ on:
     - cron: "0 0 */3 * *"  # 每3天运行一次
   workflow_dispatch:        # 允许手动触发
   push:
-    branches: ["workflows"] # workflows分支推送时触发
+    branches: ["main"] # main分支推送时触发
 
 jobs:
   update-profile:
@@ -18,7 +18,7 @@ jobs:
         with:
           fetch-depth: 0
           token: ${{ secrets.GITHUB_TOKEN }}
-          ref: workflows
+          ref: main
           
       # 生成3D贡献图
       - name: Generate 3D profile
@@ -28,41 +28,19 @@ jobs:
           USERNAME: ${{ github.repository_owner }}
           MAX_REPOS: 300
 
-      # 配置Git并提交更改到 workflows 分支
-      - name: Configure Git and Push Changes to workflows
+      # 移动生成结果到 assets/profile-3d
+      - name: Move generated 3D profile to assets/profile-3d
         run: |
-          git config --global user.name "github-actions[bot]"
-          git config --global user.email "github-actions[bot]@users.noreply.github.com"
-          
-          # 添加并提交更改
-          git add profile-3d-contrib/
-          git diff --quiet && git diff --staged --quiet || git commit -m "chore: update 3d profile"
-          git push origin workflows
-
-      # 同步更改到 main 分支
-      - name: Sync changes to main branch
-        run: |
-          # 切换到 main 分支并更新
-          git fetch origin main
-          git checkout main
-
-          # 复制文件
-          mkdir -p profile-3d-contrib
-          git checkout workflows -- profile-3d-contrib/
-
-          # 移动到 assets 目录
           mkdir -p assets/profile-3d
-          rm -rf assets/profile-3d/*
           mv profile-3d-contrib/* assets/profile-3d/
           rm -rf profile-3d-contrib
 
-          # 再次确保根目录下 profile-3d-contrib 被彻底删除
-          if [ -d "profile-3d-contrib" ]; then
-            rm -rf profile-3d-contrib
-          fi
-
-          # 提交更改
+      # 配置Git并提交更改到 main 分支
+      - name: Configure Git and Push Changes to main
+        run: |
+          git config --global user.name "github-actions[bot]"
+          git config --global user.email "github-actions[bot]@users.noreply.github.com"
           git add assets/profile-3d/
           git rm -r --ignore-unmatch profile-3d-contrib
-          git diff --quiet && git diff --staged --quiet || git commit -m "chore: sync 3d profile from workflows branch"
+          git diff --quiet && git diff --staged --quiet || git commit -m "chore: update 3d profile"
           git push origin main 

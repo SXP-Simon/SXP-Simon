@@ -5,7 +5,7 @@ on:
     - cron: "30 0 */3 * *"  # 每3天运行一次，错开30分钟
   workflow_dispatch:        # 允许手动触发
   push:
-    branches: ["workflows"] # workflows分支推送时触发
+    branches: ["main"] # main分支推送时触发
     paths:
       - "assets/friends/friends.json"
       - "src/friends/**"
@@ -22,7 +22,7 @@ jobs:
         with:
           fetch-depth: 0
           token: ${{ secrets.GITHUB_TOKEN }}
-          ref: workflows
+          ref: main
           
       # 创建必要的目录
       - name: Create required directories
@@ -57,32 +57,11 @@ jobs:
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
       
-      # 配置Git并提交更改到 workflows 分支
-      - name: Configure Git and Push Changes to workflows
+      # 配置Git并提交更改到 main 分支
+      - name: Configure Git and Push Changes to main
         run: |
           git config --global user.name "github-actions[bot]"
           git config --global user.email "github-actions[bot]@users.noreply.github.com"
-          
-          # 拉取最新的 workflows 分支，避免 push 被拒绝
-          git pull origin workflows --rebase
-          
-          # 添加并提交更改
           git add assets/friends/
           git diff --quiet && git diff --staged --quiet || git commit -m "chore: update friends network"
-          git push origin workflows
-
-      # 同步更改到 main 分支
-      - name: Sync changes to main branch
-        run: |
-          # 切换到 main 分支并更新
-          git fetch origin main
-          git checkout main
-          
-          # 复制文件
-          mkdir -p assets/friends
-          git checkout workflows -- assets/friends/
-          
-          # 提交更改
-          git add assets/friends/
-          git diff --quiet && git diff --staged --quiet || git commit -m "chore: sync friends network from workflows branch"
           git push origin main
