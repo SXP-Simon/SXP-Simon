@@ -51,18 +51,22 @@ jobs:
       - name: Install dependencies
         run: pnpm install --no-frozen-lockfile
           
+      # 配置Git并拉取最新 main
+      - name: Configure Git and Pull Latest main
+        run: |
+          git config --global user.name "github-actions[bot]"
+          git config --global user.email "github-actions[bot]@users.noreply.github.com"
+          git pull origin main --rebase
+
       # 生成朋友网络
       - name: Generate friends network
         run: node src/friends/generate-friends.js
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-      
-      # 配置Git并提交更改到 main 分支
-      - name: Configure Git and Push Changes to main
+
+      # 提交更改到 main 分支
+      - name: Commit and Push Changes to main
         run: |
-          git config --global user.name "github-actions[bot]"
-          git config --global user.email "github-actions[bot]@users.noreply.github.com"
-          git pull origin main --rebase
           git add assets/friends/
           git diff --quiet && git diff --staged --quiet || git commit -m "chore: update friends network"
           git push origin main
