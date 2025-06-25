@@ -67,7 +67,7 @@
 ## About Me
 <!-- https://github.com/badges/shields -->
 <p align="center">
-<a href="https://github.com/SXP-Simon"><img src="https://img.shields.io/badge/GitHub-Helain Nuits-white?logo=github" /></a>
+<a href="https://github.com/SXP-Simon"><img src="https://img.shields.io/badge/GitHub-Helian Nuits-white?logo=github" /></a>
 <a href="https://img.shields.io/github/followers/SXP-Simon?label=Follow&style=social"><img src="https://img.shields.io/github/followers/SXP-Simon?label=Follow&style=social" /></a>
 <a href="https://img.shields.io/github/stars/SXP-Simon?affiliations=OWNER&style=social"><img src="https://img.shields.io/github/stars/SXP-Simon?affiliations=OWNER&style=social" /></a>
 <a href="https://space.bilibili.com/609923881"><img src="https://img.shields.io/badge/Bilibili-没有传说的傻小胖-blue?logo=bilibili" /></a>
