@@ -1,0 +1,82 @@
+name: Metrics
+on:
+  # Schedule daily updates
+  schedule: [{cron: "0 0 * * *"}]
+  # (optional) Run workflow manually
+  workflow_dispatch:
+  # (optional) Run workflow when pushing on master/main
+  push: {branches: ["master", "main"]}
+jobs:
+  github-metrics1:
+    runs-on: ubuntu-latest
+    environment: 
+      name: production
+    permissions:
+      contents: write
+    steps:
+      - uses: lowlighter/metrics@latest
+        with:
+          token: ${{ secrets.METRICS_TOKEN }}
+          filename: metrics.left.svg
+          template: classic
+          base: header, community, repositories, metadata
+          config_timezone: Asia/Shanghai
+          plugin_isocalendar: yes
+          plugin_isocalendar_duration: full-year
+          plugin_languages: yes
+          plugin_languages_indepth: yes
+          plugin_languages_analysis_timeout: 15
+          plugin_languages_categories: markup, programming
+          plugin_languages_colors: github
+          plugin_languages_limit: 8
+          plugin_languages_recent_categories: markup, programming
+          plugin_languages_recent_days: 14
+          plugin_languages_recent_load: 300
+          plugin_languages_sections: most-used
+          plugin_languages_threshold: 0%
+          plugin_lines: yes
+          plugin_projects: no
+          plugin_projects_limit: 4
+          plugin_topics: yes
+          plugin_topics_mode: mastered
+          plugin_topics_limit: 15
+          
+          
+          plugin_activity: yes
+          plugin_activity_days: 14
+          plugin_activity_filter: issue, pr, release, fork, review
+          plugin_activity_limit: 5
+          plugin_activity_load: 100
+          plugin_activity_visibility: public
+
+          plugin_stars: yes
+          plugin_stars_limit: 5
+          plugin_stargazers: yes
+          plugin_stargazers_charts_type: classic
+          plugin_people: yes
+          plugin_people_types: followers
+          
+  github-metrics2:
+    runs-on: ubuntu-latest
+    environment: 
+      name: production
+    permissions:
+      contents: write
+    steps:
+      - uses: lowlighter/metrics@latest
+        with:
+          token: ${{ secrets.METRICS_TOKEN }}
+          filename: metrics.right.svg
+          template: classic
+          base: ""
+          config_timezone: Asia/Shanghai
+          
+          plugin_anilist: yes
+          plugin_anilist_user: HelianNuits
+          plugin_anilist_medias: anime, manga
+          plugin_anilist_sections: favorites, watching, reading, characters
+          plugin_anilist_limit: 6
+          plugin_anilist_limit_characters: 22
+          plugin_anilist_shuffle: yes
+          
+
