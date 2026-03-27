@@ -21,7 +21,7 @@
 ## About Me
 
 
-_✨  Being keen on steering practical things, now hands-on **FE** and **ChatBot**.  ✨_
+_✨  Being keen on steering practical things, now hands-on **Full Stack** and **Agent**.  ✨_
 
 _bearing the story of those who challenge the edge of the anime world._
 
