@@ -20,6 +20,10 @@
 
 ## About Me
 
+<div align="center">
+  <img src="https://yourinsights.vercel.app/api/insight?username=sxp-simon&theme=github_light&graph=true&languages=true&streak=true&stats=true&header=true&summary=true&profile=true&hide_langs=Tex%2CMDX%2CAstro" alt="GitHub Insights" width="100%">
+</div>
+<br/>
 
 _✨  Being keen on steering practical things, now hands-on **Full Stack** and **Agent**.  ✨_
 
@@ -38,17 +42,4 @@ _Contributor and Plugin Developer of **[@AstrBotDevs/AstrBot<img src="https://av
 <br/>
 <img src="./image/素晴日.jpg" alt="素晴日" style="display:block;margin-left: auto;margin-right: auto;">
 <br/>
-
-<table align="center" width="100%">
-  <tr>
-    <td align="center" width="50%" valign="top">
-      <img src="./metrics.left.svg" alt="Metrics Left" width="100%">
-    </td>
-    <td align="center" width="50%" valign="top">
-      <img src="./metrics.right.svg" alt="Metrics Right" width="100%">
-    </td>
-  </tr>
-</table>
-<br/>
-
 
