@@ -24,7 +24,7 @@
   <picture>
     <source media="(prefers-color-scheme: dark)" srcset="https://yourinsights.vercel.app/api/insight?username=SXP-Simon&theme=github_dark&graph=true&languages=true&streak=true&stats=true&header=true&summary=true&profile=false" />
     <source media="(prefers-color-scheme: light)" srcset="https://yourinsights.vercel.app/api/insight?username=SXP-Simon&theme=github_light&graph=true&languages=true&streak=true&stats=true&header=true&summary=true&profile=false" />
-    <img src="https://yourinsights.vercel.app/api/insight?username=SXP-Simon&theme=github_light&graph=true&languages=true&streak=true&stats=true&header=true&summary=true&profile=false" alt="SXP-Simon's GitHub Insights" />
+    <img src="https://yourinsights.vercel.app/api/insight?username=SXP-Simon&theme=github_light&graph=true&languages=true&streak=true&stats=true&header=true&summary=true&profile=false" alt="SXP-Simon's GitHub Insights" width="60%" />
   </picture>
 </p>
 <br/>
@@ -44,7 +44,9 @@ _Contributor and Plugin Developer of **[@AstrBotDevs/AstrBot<img src="https://av
 </div>
 
 <br/>
-<img src="./image/素晴日.jpg" alt="素晴日" style="display:block;margin-left: auto;margin-right: auto;">
+<p align="center">
+  <img src="./image/素晴日.jpg" alt="素晴日" width="50%" />
+</p>
 <br/>
 
 ---
