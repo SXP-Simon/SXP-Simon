@@ -45,7 +45,11 @@ _Contributor and Plugin Developer of **[@AstrBotDevs/AstrBot<img src="https://av
 
 <br/>
 <p align="center">
-  <img src="./image/素晴日.jpg" alt="素晴日" width="50%" />
+  <picture>
+    <source media="(prefers-color-scheme: light)" srcset="https://cdn.jsdmirror.com/gh/SXP-Simon/SXP-Simon@main/image/zakuro.jpg" />
+    <source media="(prefers-color-scheme: dark)" srcset="https://cdn.jsdmirror.com/gh/SXP-Simon/SXP-Simon@main/image/misaki.jpg" />
+    <img src="https://cdn.jsdmirror.com/gh/SXP-Simon/SXP-Simon@main/image/misaki.jpg" alt="Profile Character Image" width="100%" />
+  </picture>
 </p>
 <br/>
 
