@@ -47,3 +47,21 @@ _Contributor and Plugin Developer of **[@AstrBotDevs/AstrBot<img src="https://av
 <img src="./image/素晴日.jpg" alt="素晴日" style="display:block;margin-left: auto;margin-right: auto;">
 <br/>
 
+---
+
+<details>
+<summary>More</summary>
+<br/>
+
+<table align="center" width="100%">
+  <tr>
+    <td align="center" width="50%" valign="top">
+      <img src="./metrics.left.svg" alt="Metrics Left" width="100%">
+    </td>
+    <td align="center" width="50%" valign="top">
+      <img src="./metrics.right.svg" alt="Metrics Right" width="100%">
+    </td>
+  </tr>
+</table>
+
+</details>
