@@ -24,7 +24,7 @@
   <picture>
     <source media="(prefers-color-scheme: dark)" srcset="https://yourinsights.vercel.app/api/insight?username=SXP-Simon&theme=github_dark&graph=true&languages=true&streak=true&stats=true&header=true&summary=true&profile=false" />
     <source media="(prefers-color-scheme: light)" srcset="https://yourinsights.vercel.app/api/insight?username=SXP-Simon&theme=github_light&graph=true&languages=true&streak=true&stats=true&header=true&summary=true&profile=false" />
-    <img src="https://yourinsights.vercel.app/api/insight?username=SXP-Simon&theme=github_light&graph=true&languages=true&streak=true&stats=true&header=true&summary=true&profile=false" alt="SXP-Simon's GitHub Insights" width="60%" />
+    <img src="https://yourinsights.vercel.app/api/insight?username=SXP-Simon&theme=github_light&graph=true&languages=true&streak=true&stats=true&header=true&summary=true&profile=false" alt="SXP-Simon's GitHub Insights" width="100%" />
   </picture>
 </p>
 <br/>
