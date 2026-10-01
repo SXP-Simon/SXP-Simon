@@ -20,9 +20,13 @@
 
 ## About Me
 
-<div align="center">
-  <img src="https://yourinsights.vercel.app/api/insight?username=sxp-simon&theme=github_light&graph=true&languages=true&streak=true&stats=true&header=true&summary=true&profile=true&hide_langs=Tex%2CMDX%2CAstro" alt="GitHub Insights" width="100%">
-</div>
+<p align="center">
+  <picture>
+    <source media="(prefers-color-scheme: dark)" srcset="https://yourinsights.vercel.app/api/insight?username=SXP-Simon&theme=github_dark&graph=true&languages=true&streak=true&stats=true&header=true&summary=true&profile=false" />
+    <source media="(prefers-color-scheme: light)" srcset="https://yourinsights.vercel.app/api/insight?username=SXP-Simon&theme=github_light&graph=true&languages=true&streak=true&stats=true&header=true&summary=true&profile=false" />
+    <img src="https://yourinsights.vercel.app/api/insight?username=SXP-Simon&theme=github_light&graph=true&languages=true&streak=true&stats=true&header=true&summary=true&profile=false" alt="SXP-Simon's GitHub Insights" />
+  </picture>
+</p>
 <br/>
 
 _✨  Being keen on steering practical things, now hands-on **Full Stack** and **Agent**.  ✨_
