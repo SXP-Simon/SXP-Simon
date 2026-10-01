@@ -46,9 +46,9 @@ _Contributor and Plugin Developer of **[@AstrBotDevs/AstrBot<img src="https://av
 <br/>
 <p align="center">
   <picture>
-    <source media="(prefers-color-scheme: light)" srcset="https://cdn.jsdmirror.com/gh/SXP-Simon/SXP-Simon@main/image/zakuro.jpg" />
-    <source media="(prefers-color-scheme: dark)" srcset="https://cdn.jsdmirror.com/gh/SXP-Simon/SXP-Simon@main/image/misaki.jpg" />
-    <img src="https://cdn.jsdmirror.com/gh/SXP-Simon/SXP-Simon@main/image/misaki.jpg" alt="Profile Character Image" width="100%" />
+    <source media="(prefers-color-scheme: light)" srcset="https://fastly.jsdelivr.net/gh/SXP-Simon/SXP-Simon@main/image/zakuro.jpg" />
+    <source media="(prefers-color-scheme: dark)" srcset="https://fastly.jsdelivr.net/gh/SXP-Simon/SXP-Simon@main/image/misaki.jpg" />
+    <img src="https://fastly.jsdelivr.net/gh/SXP-Simon/SXP-Simon@main/image/misaki.jpg" alt="Profile Character Image" width="100%" />
   </picture>
 </p>
 <br/>
@@ -62,10 +62,10 @@ _Contributor and Plugin Developer of **[@AstrBotDevs/AstrBot<img src="https://av
 <table align="center" width="100%">
   <tr>
     <td align="center" width="50%" valign="top">
-      <img src="./metrics.left.svg" alt="Metrics Left" width="100%">
+      <img src="https://fastly.jsdelivr.net/gh/SXP-Simon/SXP-Simon@main/metrics.left.svg" alt="Metrics Left" width="100%">
     </td>
     <td align="center" width="50%" valign="top">
-      <img src="./metrics.right.svg" alt="Metrics Right" width="100%">
+      <img src="https://fastly.jsdelivr.net/gh/SXP-Simon/SXP-Simon@main/metrics.right.svg" alt="Metrics Right" width="100%">
     </td>
   </tr>
 </table>
